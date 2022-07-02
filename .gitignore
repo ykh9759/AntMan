@@ -35,6 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 
 
 .ssh/
+=======
+>>>>>>> 8da05a13a1307eb6243e2f185cfebb3dee6e0711
