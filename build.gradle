@@ -16,8 +16,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	// (개발환경) devtools [새로 저장시 자동 재시작]
+	implementation 'mysql:mysql-connector-java'   
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
