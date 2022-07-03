@@ -21,27 +21,12 @@
 # Registers:
 
 # File marks:
-<<<<<<< HEAD
-'0  1  2  ~/.git/refs/heads/hoon
-'1  1  0  ~/.git/config
+'0  1  0  /etc/my.cnf
 
 # Jumplist (newest first):
--'  1  2  ~/.git/refs/heads/hoon
--'  1  0  ~/.git/config
-=======
-'0  1  0  ~/.git/config
-
-# Jumplist (newest first):
->>>>>>> master
--'  1  0  ~/.git/config
+-'  1  0  /etc/my.cnf
 
 # History of marks within files (newest to oldest):
 
-<<<<<<< HEAD
-> ~/.git/refs/heads/hoon
-	"	1	2
-
-=======
->>>>>>> master
-> ~/.git/config
+> /etc/my.cnf
 	"	1	0
