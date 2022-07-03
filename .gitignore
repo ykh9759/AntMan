@@ -39,6 +39,18 @@ out/
 #SSH
 .ssh/
 
+#git
+.gitignore
+.gitconfig
+
+#mysql 
+.mysql_history
+
 
 nohup.out
 .bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.viminfo
+
