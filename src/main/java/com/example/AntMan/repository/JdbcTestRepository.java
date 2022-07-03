@@ -1,41 +1,30 @@
-// package com.example.AntMan.repository;
+package com.example.AntMan.repository;
 
-// public class JdbcTestRepository implements TestRepository {
+import javax.slq.DataSource;
+import java.sql.Connection;
+import java.util.List;
+import java.util.Optional;
 
-//     private final DataSource data;
+public class JdbcTestRepository {
 
-//     public JdbcTestRepository(DataSource data) {
-//         this.data = data;
-//     }
+    private final DataSource data;
 
-//     @Override
-//     public Test save(Test test) {
-//         String sql = "insert into test(id,name) values(?,?)";
+    public JdbcTestRepository(DataSource data) {
+        this.data = data;
+    }
 
-//         Connection conn = data.getConnection();
+    @Override
+    public Test selectTest(Test test) {
+        String sql = "select * from test";
 
-//         PreparedStatement pstmt = conn.preparedStatement(sql);
-//         pstmt.setString(1, test.getNo());
-//         pstmt.setString(2, test.getName());
+        Connection conn = data.getConnection();
 
-//         pstmt.executeUpdate();
+        PreparedStatement pstmt = conn.preparedStatement(sql);
+        pstmt.setString(1, test.getNo());
+        pstmt.setString(2, test.getName());
 
-//         return null;
-//     }
+        pstmt.executeUpdate();
 
-//     @Override
-//     public Test save(Test test) {
-        
-//     }
-
-//     @Override
-//     public Test save(Test test) {
-        
-//     }
-
-//     @Override
-//     public Test save(Test test) {
-        
-//     }
-    
-// }
+        return null;
+    }    
+}

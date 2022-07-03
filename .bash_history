@@ -404,3 +404,27 @@ git push origin hoon
 git status
 git checkout master
 git status
+ll
+git branch
+git branch hoon
+git checkout hoon
+git status
+git branch
+git add .
+git commit -m "2022-07-03"
+git push origin hoon
+git config --global credential.helper cache
+git config -l
+git status
+git branch
+git add .
+git commit -m "2022-07-03"
+git push origin hoon
+git checkout origin/hoon
+git branch
+git checkout hoon
+git branch
+git status
+ll
+git branch
+ps -ef |grep java
