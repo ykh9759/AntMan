@@ -1,26 +1,26 @@
-package com.example.AntMan.domain;
+// package com.example.AntMan.domain;
 
-import javax.persistence.Entity;
+// import javax.persistence.Entity;
 
-@Entity
-public class Test {
+// @Entity
+// public class Test {
 
-    private int no;
-    private String name;
+//     private int no;
+//     private String name;
 
-    public int getNo() {
-        return no;
-    }
+//     public int getNo() {
+//         return no;
+//     }
 
-    public int setNo(int no) {
-        this.no = no;
-    }
+//     public int setNo(int no) {
+//         this.no = no;
+//     }
 
-    public int getName() {
-        return name;
-    }
+//     public int getName() {
+//         return name;
+//     }
 
-    public int setName(String name) {
-        this.name = name;
-    }
-}
+//     public int setName(String name) {
+//         this.name = name;
+//     }
+// }

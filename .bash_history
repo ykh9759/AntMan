@@ -428,3 +428,60 @@ git status
 ll
 git branch
 ps -ef |grep java
+git status
+git add .
+git commit -m "2022-07-03"
+git push origin hoon
+ll
+cd .cache/
+ll
+cd git
+ll
+ls -al
+cd ..
+ll
+git branch
+git status
+git push origin hoon
+sudo su
+ll
+ls -al
+sudo chown opc:opc .cache/
+ls -al
+cd .cache/
+ll
+sudo chown opc:opc abrt/
+ll
+cd abrt/
+ll
+sudo chown opc:opc lastnotification 
+ll
+cd ~
+ll
+git push origin hoon
+git pull origin hoon
+git status
+git reset
+git status
+git push origin hoon
+git pull origin hoon
+git status
+git log
+git branch
+git status
+git add .
+git commit -m "2022-07-03"
+git push origin hoon
+ll
+cd .cache/
+ll
+cd git
+ll
+cd credential/
+ll
+cd ~
+ll
+git status
+git restore src/main/java/com/example/AntMan/repository/JdbcTestRepository.java
+git status
+git restore src/main/java/com/example/AntMan/repository/JdbcTestRepository.java
