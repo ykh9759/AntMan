@@ -17,8 +17,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// (°³¹ßÈ¯°æ) devtools [»õ·Î ÀúÀå½Ã ÀÚµ¿ Àç½ÃÀÛ]
+	// devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	// íƒ€ìž„ë¦¬í”„
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {
