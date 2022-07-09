@@ -5,7 +5,6 @@
 <title>AntMan</title>
 
      <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/headers/">
-	 <!--link href="bootstrap.min.css" rel="stylesheet"-->
 	 <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 	 
 	 <style>
@@ -63,7 +62,42 @@
 	 
 </head>
 <body>
-
+	
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+	<script th:src="@{/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript">  
+	    
+	    function menuSelect(id){
+		  $.ajax({
+			type : "GET",
+			url : "/menu_select/"+id,
+			dataType : "text",
+			error : function() { 
+			  alert('서버 오류입니다!!'); 
+			},  
+			success : function(data) {
+			  $('#content').html(data);
+			}  
+		   }); 
+		 }
+		 
+		 function community_sub(id, gubun){
+		  $.ajax({
+			type : "GET",
+			url : "/community_sub?id="+id+"&gubun="+gubun,
+			dataType : "text",
+			error : function() { 
+			  alert('서버 오류입니다!!'); 
+			},  
+			success : function(data) {
+			  $('#community_sub').html(data);
+			}  
+		   }); 
+		 }
+	</script>
+	
 	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 	  <symbol id="bootstrap" viewBox="0 0 118 94">
 	    <title>Bootstrap</title>
@@ -81,10 +115,9 @@
 	</svg>
 
 	<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-        
-         <header class="p-3 mb-3 border-bottom">
+	<div class="row">	
+		<div class="col-sm-12">
+			<header class="p-3 mb-3 border-bottom">
 		    <div class="container">
 		      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 		        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
@@ -92,9 +125,10 @@
 		        </a>
 		
 		        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-		          <li><a href="#" class="nav-link px-6 link-secondary">홈</a></li>
-		          <li><a href="#" class="nav-link px-6 link-dark">검색</a></li>
-		          <li><a href="#" class="nav-link px-6 link-dark">커뮤니티</a></li>
+		          <li><a href="javascript:menuSelect('1');" class="nav-link px-6 link-secondary">홈</a></li>
+		          <li><a href="javascript:menuSelect('2');" class="nav-link px-6 link-dark">검색</a></li>
+		          <li><a href="javascript:menuSelect('3');" class="nav-link px-6 link-dark">커뮤니티</a>
+		          </li>
 		        </ul>
 		
 		        <!--form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -113,63 +147,62 @@
 		            <li><a class="dropdown-item" href="#">Sign out</a></li>
 		          </ul>
 		        </div>
-		      </div>
-		    </div>
-		  </header>
+		       </div>
+		     </div>
+   			</header>
 		</div>
-    </div>
+	</div>
+	    <div class="row" id="content">
+	    	<!-- iframe-->
+	        <div class="col-sm-6 pb-4 px-4">
+				<div class="card" style="height: 15rem;" >
+				  <div class="card-body">
+					 코스피차트
+				  </div>
+				</div>	
+			</div>
+	        <div class="col-sm-6 pb-4 px-4">
+	        	<div class="card" style="height: 15rem;" >
+				  <div class="card-body">
+					 코스닥차트
+				  </div>
+				</div>
+	        </div>
+	        <div class="col-sm-6 pb-4 px-4">
+				<div class="card" style="height: 15rem;" >
+				  <div class="card-body">
+					 상승률순위
+				  </div>
+				</div>
+			</div>
+	        <div class="col-sm-6 px-4">
+				<div class="card" style="height: 15rem;" >
+				  <div class="card-body">
+					 하락율슌위
+				  </div>
+				</div>
+			</div>
+	        <!-- /iframe-->
+	    </div>
     <div class="row">
-    	<!-- iframe-->
-        <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 코스피차트
-			  </div>
-			</div>	
-		</div>
-        <div class="col-sm-6 pb-4 px-4">
-        	<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 코스닥차트
-			  </div>
-			</div>
-        </div>
-        <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 상승률순위
-			  </div>
-			</div>
-		</div>
-        <div class="col-sm-6 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 하락율슌위
-			  </div>
-			</div>
-		</div>
-        <!-- /iframe-->
+    	<div class="col-sm-12">
+	        	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+			    <div class="col-md-4 d-flex align-items-center">
+			      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+			        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+			      </a>
+			      <span class="mb-3 mb-md-0 text-muted">AntMan</span>
+			    </div>
+			
+			    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+			      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+			      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+			      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+			    </ul>
+	
+			  </footer>
+    	</div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-        	<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-		    <div class="col-md-4 d-flex align-items-center">
-		      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-		        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-		      </a>
-		      <span class="mb-3 mb-md-0 text-muted">AntMan</span>
-		    </div>
-		
-		    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-		      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
-		      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
-		      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
-		    </ul>
-		  </footer>
-        </div>
-    </div>
-</div>
-<!--script src="bootstrap.bundle.min.js"--><!--/script-->
-<script th:src="@{/bootstrap.bundle.min.js}"></script>
+ </div>       
 </body>
 </html>
