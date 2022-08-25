@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,39 +31,42 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up/store")
-    public void save(HttpServletResponse response, @RequestParam Map<String, String> param, Member member)
-            throws Exception {
+    public String save(@Valid Member member, Errors errors, HttpServletResponse response) throws Exception {
 
-        String name = param.get("name"); // 이름
-        String id = param.get("id"); // 아이디
-        String password1 = param.get("password1"); // 비밀번호
-        String password2 = param.get("password2"); // 비밀번호 재확인
-        String phoneNumber = param.get("phoneNumber"); // 전화번호
-        String email = param.get("email"); // 이메일
+        if (errors.hasErrors()) { /* 회원가입 실패시 입력 데이터 값을 유지 */
+            Map<String, String> validatorResult = memberService.validateHandling(errors);
 
-        if (name.isEmpty()) {
-            Utils.alertAndBackPage(response, "이름 입력해주세요.");
-        } else if (id.isEmpty()) {
-            Utils.alertAndBackPage(response, "아이디를 입력해주세요.");
-        } else if (password1.isEmpty()) {
-            Utils.alertAndBackPage(response, "비밀번호를 입력해주세요.");
-        } else if (password2.isEmpty()) {
-            Utils.alertAndBackPage(response, "비밀번호 재확인을 입력해주세요.");
-        } else if (phoneNumber.isEmpty()) {
-            Utils.alertAndBackPage(response, "전화번호를 입력해주세요.");
-        } else if (!Objects.equals(password1, password2)) {
-            Utils.alertAndBackPage(response, "비밀번호와 비밀번호 재확인이 틀립니다.");
+            for (String key : validatorResult.keySet()) {
+                if (key.equals("name")) {
+                    Utils.alertAndBackPage(response, validatorResult.get(key));
+                    return "";
+                } else if (key.equals("id")) {
+                    Utils.alertAndBackPage(response, validatorResult.get(key));
+                    return "";
+                } else if (key.equals("password")) {
+                    Utils.alertAndBackPage(response, validatorResult.get(key));
+                    return "";
+                } else if (key.equals("passwordCheck")) {
+                    Utils.alertAndBackPage(response, validatorResult.get(key));
+                    return "";
+                } else if (key.equals("phoneNumber")) {
+                    Utils.alertAndBackPage(response, validatorResult.get(key));
+                    return "";
+                }
+            }
         }
 
-        member.setName(name);
-        member.setId(id);
-        member.setPassword(password1);
-        member.setPhoneNumber(phoneNumber);
-        member.setEmail(email);
+        String password = member.getPassword(); // 비밀번호
+        String passwordCheck = member.getPasswordCheck(); // 비밀번호 재확인
 
-        memberService.save(member);
+        if (!Objects.equals(password, passwordCheck)) {
+            Utils.alertAndBackPage(response, "비밀번호와 비밀번호 재확인이 틀립니다.");
+            return "";
+        }
+
+        memberService.memberSave(member);
         Utils.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
-        // return "redirect:/";
+        return "redirect:/";
     }
 
 }

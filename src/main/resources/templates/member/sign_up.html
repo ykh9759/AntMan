@@ -15,17 +15,6 @@
       <div class="col-lg-6" style="float: none; margin:0 auto;">
         <form action="/sign-up/store" method="post" class="needs-validation" novalidate>
           <div class="row g-3">
-
-            <div class="col-12">
-              <label for="name" class="form-label">이름</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" name="name" id="name" placeholder="name">
-              <div class="invalid-feedback">
-                  이름을 입력해주세요.
-                </div>
-              </div>
-            </div>
-
             <div class="col-12">
               <label for="id" class="form-label">아이디</label>
               <div class="input-group has-validation">
@@ -39,7 +28,7 @@
             <div class="col-12">
               <label for="inputValid" class="form-label">비밀번호</label>
               <div class="input-group has-success">
-                <input type="password" class="form-control" name="password1" id="inputValid" placeholder="PW">
+                <input type="password" class="form-control" name="password" id="inputValid" placeholder="PW">
                 <!--input type="password" class="form-control is-valid" id="inputValid" placeholder="PW" required--> <!--체크된클래스-->
                 <!--input type="password" class="form-control is-invalid" id="inputValid" placeholder="PW" required--> <!--확인띄우는 클래스-->
               <div class="invalid-feedback"></div>
@@ -49,8 +38,17 @@
             <div class="col-12">
               <label for="inputInvalid" class="form-label">비밀번호 재확인</label>
               <div class="input-group has-danger">
-                <input type="password" class="form-control" name="password2" id="inputInvalid" placeholder="PW">
+                <input type="password" class="form-control" name="passwordCheck" id="inputInvalid" placeholder="PW">
               <div class="invalid-feedback">비밀번호가 일치하지 않습니다</div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="name" class="form-label">이름</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" name="name" id="name" placeholder="name">
+              <div class="invalid-feedback">
+                  이름을 입력해주세요.
+                </div>
               </div>
             </div>
 

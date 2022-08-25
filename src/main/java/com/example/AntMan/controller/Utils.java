@@ -33,7 +33,7 @@ public class Utils {
     public static void alertAndBackPage(HttpServletResponse response, String alertText) throws IOException {
         init(response);
         PrintWriter out = response.getWriter();
-        out.println("<script>alert('" + alertText + "'); history.go(-1);</script>");
+        out.println("<script>alert('" + alertText + "'); history.back();</script>");
         out.flush();
     }
 
