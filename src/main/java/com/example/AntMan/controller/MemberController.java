@@ -20,20 +20,10 @@ public class MemberController {
     @Autowired
     MemberService memberService;
 
-    @GetMapping("/login")
-    public String login() {
-        return "member/login";
-    }
-
-    @GetMapping("/sign-up")
-    public String signUp() {
-        return "member/sign_up";
-    }
-
-    @PostMapping("/sign-up/store")
+    @PostMapping("/sign-up/save")
     public String save(@Valid Member member, Errors errors, HttpServletResponse response) throws Exception {
 
-        if (errors.hasErrors()) { /* 회원가입 실패시 입력 데이터 값을 유지 */
+        if (errors.hasErrors()) {
             Map<String, String> validatorResult = memberService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
@@ -60,7 +50,17 @@ public class MemberController {
         String passwordCheck = member.getPasswordCheck(); // 비밀번호 재확인
 
         if (!Objects.equals(password, passwordCheck)) {
-            Utils.alertAndBackPage(response, "비밀번호와 비밀번호 재확인이 틀립니다.");
+            Utils.alertAndBackPage(response, "비밀번호가 일치하지 않습니다.");
+            return "";
+        }
+
+        // 아이디, 전화번호, 이메일 중복 체크
+        try {
+            memberService.checkIdDuplication(member);
+            memberService.checkPhoneNumberDuplication(member);
+            memberService.checkEmailDuplication(member);
+        } catch (IllegalStateException e) {
+            Utils.alertAndBackPage(response, e.getMessage());
             return "";
         }
 

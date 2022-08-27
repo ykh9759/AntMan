@@ -6,13 +6,14 @@ import javax.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "member")
 public class Member extends Time {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // 테이블 기본키
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
     private Integer no;
 
     @NotBlank(message = "아이디를 입력 해주세요.")
@@ -21,6 +22,7 @@ public class Member extends Time {
     @NotBlank(message = "비밀번호를 입력 해주세요.")
     private String password;
 
+    @Transient // 컬럼 자동추가 방지
     @NotBlank(message = "비밀번호 재확인을 입력 해주세요.")
     private String passwordCheck;
 
