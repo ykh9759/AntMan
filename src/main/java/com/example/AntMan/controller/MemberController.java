@@ -3,6 +3,7 @@ package com.example.AntMan.controller;
 import com.example.AntMan.service.MemberService;
 import com.example.AntMan.domain.Member;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -67,6 +68,21 @@ public class MemberController {
         memberService.memberSave(member);
         Utils.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
         return "redirect:/";
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestParam Map<String, String> login, HttpServletResponse response) throws IOException {
+
+        String id = login.get("id");
+        String password = login.get("password");
+        Member member = memberService.login(id, password);
+
+        if (member != null) {
+            Utils.alertAndMovePage(response, "안녕하세요.", "index_login");
+        } else {
+            Utils.alertAndBackPage(response, "아이디 또는 비밀번호를 확인 해주세요.");
+        }
+
     }
 
 }

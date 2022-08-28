@@ -60,4 +60,15 @@ public class MemberService {
         return member;
     }
 
+    public Member login(String loginId, String password) {
+        Member member = memberRepository.findById(loginId);
+
+        if (member.getPassword().equals(password)) {
+            return member;
+        } else {
+            return null;
+        }
+
+    }
+
 }
