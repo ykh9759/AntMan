@@ -2,7 +2,7 @@
     사용자 정의 함수 모음 클래스
 */
 
-package com.example.AntMan.controller;
+package com.example.AntMan.utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
