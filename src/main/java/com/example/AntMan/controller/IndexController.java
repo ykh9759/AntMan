@@ -40,6 +40,6 @@ public class IndexController {
 
     @GetMapping("/sign-up")
     public String signUp() {
-        return "member/sign_up";
+        return "member/signUp";
     }
 }
