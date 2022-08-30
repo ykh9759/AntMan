@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,17 +66,32 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestParam Map<String, String> login, HttpServletResponse response) throws IOException {
+    public void login(@RequestParam Map<String, String> login, HttpServletResponse response, HttpServletRequest request)
+            throws IOException {
 
         String id = login.get("id");
         String password = login.get("password");
         Member member = memberService.login(id, password);
 
         if (member != null && id.equals(member.getId())) {
-            Utils.alertAndMovePage(response, "안녕하세요. " + id + " 님", "/index_login");
+            HttpSession session = request.getSession();
+            session.setAttribute("LOGIN_MEMBER", member); // 로그인 회원 세션 저장
+
+            Utils.alertAndMovePage(response, "안녕하세요. " + id + " 님", "/");
         } else {
             Utils.alertAndBackPage(response, "아이디 또는 비밀번호를 확인 해주세요.");
         }
+
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
 
     }
 
