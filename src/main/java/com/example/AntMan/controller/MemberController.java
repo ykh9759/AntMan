@@ -4,6 +4,8 @@ import com.example.AntMan.service.MemberService;
 import com.example.AntMan.utils.Utils;
 import com.example.AntMan.domain.Member;
 
+import com.example.AntMan.dto.SignUpMember;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
@@ -25,7 +27,7 @@ public class MemberController {
     MemberService memberService;
 
     @PostMapping("/sign-up/save")
-    public void save(@Valid Member member, Errors errors, HttpServletResponse response) throws Exception {
+    public void save(@Valid SignUpMember signUpMember, Errors errors, HttpServletResponse response, Member member) throws Exception {
 
         if (errors.hasErrors()) {
             Map<String, String> validatorResult = memberService.validateHandling(errors);
@@ -45,8 +47,8 @@ public class MemberController {
             }
         }
 
-        String password = member.getPassword(); // 비밀번호
-        String passwordCheck = member.getPasswordCheck(); // 비밀번호 재확인
+        String password = signUpMember.getPassword(); // 비밀번호
+        String passwordCheck = signUpMember.getPasswordCheck(); // 비밀번호 재확인
 
         if (!Objects.equals(password, passwordCheck)) {
             Utils.alertAndBackPage(response, "비밀번호가 일치하지 않습니다.");
@@ -54,12 +56,14 @@ public class MemberController {
 
         // 아이디, 전화번호, 이메일 중복 체크
         try {
-            memberService.checkIdDuplication(member);
-            memberService.checkPhoneNumberDuplication(member);
-            memberService.checkEmailDuplication(member);
+            memberService.checkIdDuplication(signUpMember);
+            memberService.checkPhoneNumberDuplication(signUpMember);
+            memberService.checkEmailDuplication(signUpMember);
         } catch (IllegalStateException e) {
             Utils.alertAndBackPage(response, e.getMessage());
         }
+        
+        member.setId(signUpMember.getId());
 
         memberService.memberSave(member);
         Utils.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");

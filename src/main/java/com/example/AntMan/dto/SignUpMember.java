@@ -1,4 +1,4 @@
-package com.example.AntMan.domain;
+package com.example.AntMan.dto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -9,8 +9,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "member")
-public class Member extends Time {
+public class SignUpMember{
 
     @Id // 테이블 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
@@ -21,6 +20,10 @@ public class Member extends Time {
 
     @NotBlank(message = "비밀번호를 입력 해주세요.")
     private String password;
+
+    @Transient // 컬럼 자동추가 방지
+    @NotBlank(message = "비밀번호 재확인을 입력 해주세요.")
+    private String passwordCheck;
 
     @NotBlank(message = "이름을 입력 해주세요.")
     private String name;
@@ -35,10 +38,11 @@ public class Member extends Time {
     private Integer status;
 
     @Builder
-    public Member(String id, String password, String name, String phoneNumber, String email,
+    public Member(String id, String password, String passwordCheck, String name, String phoneNumber, String email,
             Integer status) {
         this.id = id;
         this.password = password;
+        this.passwordCheck = passwordCheck;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;

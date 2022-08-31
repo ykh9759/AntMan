@@ -3,6 +3,8 @@ package com.example.AntMan.service;
 import com.example.AntMan.repository.MemberRepository;
 import com.example.AntMan.domain.Member;
 
+import com.example.AntMan.dto.SignUpMember;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,21 +31,21 @@ public class MemberService {
     }
 
     /* 아이디, 닉네임, 이메일 중복 여부 확인 */
-    public void checkIdDuplication(Member member) {
+    public void checkIdDuplication(SignUpMember member) {
         boolean usernameDuplicate = memberRepository.existsById(member.getId());
         if (usernameDuplicate) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
     }
 
-    public void checkPhoneNumberDuplication(Member member) {
+    public void checkPhoneNumberDuplication(SignUpMember member) {
         boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(member.getPhoneNumber());
         if (phoneNumberDuplicate) {
             throw new IllegalStateException("이미 존재하는 전화번호입니다.");
         }
     }
 
-    public void checkEmailDuplication(Member member) {
+    public void checkEmailDuplication(SignUpMember member) {
         boolean emailDuplicate = memberRepository.existsByEmail(member.getEmail());
         if (emailDuplicate) {
             throw new IllegalStateException("이미 존재하는 이메일입니다.");
