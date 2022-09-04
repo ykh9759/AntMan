@@ -1,19 +1,17 @@
 package com.example.AntMan.dto;
 
+import com.example.AntMan.domain.Member;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
 import lombok.*;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SignUpMember{
-
-    @Id // 테이블 기본키
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
-    private Integer no;
+@NoArgsConstructor
+public class SignUp {
 
     @NotBlank(message = "아이디를 입력 해주세요.")
     private String id;
@@ -35,17 +33,15 @@ public class SignUpMember{
     @Email(message = "이메일 형식으로 입력해 주세요")
     private String email;
 
-    private Integer status;
+    public Member toEntity() {
+        return Member.builder()
+                .id(id)
+                .password(password)
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .status(1)
+                .build();
 
-    @Builder
-    public Member(String id, String password, String passwordCheck, String name, String phoneNumber, String email,
-            Integer status) {
-        this.id = id;
-        this.password = password;
-        this.passwordCheck = passwordCheck;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.status = status;
     }
 }

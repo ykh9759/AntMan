@@ -3,9 +3,8 @@ package com.example.AntMan.service;
 import com.example.AntMan.repository.MemberRepository;
 import com.example.AntMan.domain.Member;
 
-import com.example.AntMan.dto.SignUpMember;
+import com.example.AntMan.dto.SignUp;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,22 +30,22 @@ public class MemberService {
     }
 
     /* 아이디, 닉네임, 이메일 중복 여부 확인 */
-    public void checkIdDuplication(SignUpMember member) {
-        boolean usernameDuplicate = memberRepository.existsById(member.getId());
+    public void checkIdDuplication(SignUp signUp) {
+        boolean usernameDuplicate = memberRepository.existsById(signUp.getId());
         if (usernameDuplicate) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
     }
 
-    public void checkPhoneNumberDuplication(SignUpMember member) {
-        boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(member.getPhoneNumber());
+    public void checkPhoneNumberDuplication(SignUp signUp) {
+        boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(signUp.getPhoneNumber());
         if (phoneNumberDuplicate) {
             throw new IllegalStateException("이미 존재하는 전화번호입니다.");
         }
     }
 
-    public void checkEmailDuplication(SignUpMember member) {
-        boolean emailDuplicate = memberRepository.existsByEmail(member.getEmail());
+    public void checkEmailDuplication(SignUp signUp) {
+        boolean emailDuplicate = memberRepository.existsByEmail(signUp.getEmail());
         if (emailDuplicate) {
             throw new IllegalStateException("이미 존재하는 이메일입니다.");
         }
@@ -55,9 +54,6 @@ public class MemberService {
     // 회원가입
     @Transactional
     public Member memberSave(Member member) {
-
-        member.setStatus(1);
-
         memberRepository.save(member);
         return member;
     }
