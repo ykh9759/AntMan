@@ -2,9 +2,10 @@ package com.example.AntMan.controller;
 
 import com.example.AntMan.service.MemberService;
 import com.example.AntMan.utils.Utils;
-import com.example.AntMan.domain.Member;
+import com.example.AntMan.domain.entity.Member;
 
-import com.example.AntMan.dto.SignUpMember;
+import com.example.AntMan.domain.dto.SignUp;
+import com.example.AntMan.domain.dto.Login;
 
 import java.io.IOException;
 import java.util.Map;
@@ -26,55 +27,62 @@ public class MemberController {
     @Autowired
     MemberService memberService;
 
+    Member member;
+
     @PostMapping("/sign-up/save")
-    public void save(@Valid SignUpMember signUpMember, Errors errors, HttpServletResponse response, Member member) throws Exception {
+    public void save(@Valid SignUp signUp, Errors errors, HttpServletResponse response)
+            throws Exception {
 
         if (errors.hasErrors()) {
             Map<String, String> validatorResult = memberService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
-                if (key.equals("name")) {
-                    Utils.alertAndBackPage(response, validatorResult.get(key));
-                } else if (key.equals("id")) {
-                    Utils.alertAndBackPage(response, validatorResult.get(key));
-                } else if (key.equals("password")) {
-                    Utils.alertAndBackPage(response, validatorResult.get(key));
-                } else if (key.equals("passwordCheck")) {
-                    Utils.alertAndBackPage(response, validatorResult.get(key));
-                } else if (key.equals("phoneNumber")) {
-                    Utils.alertAndBackPage(response, validatorResult.get(key));
-                }
+                Utils.alertAndBackPage(response, validatorResult.get(key));
+                return;
             }
         }
 
-        String password = signUpMember.getPassword(); // 비밀번호
-        String passwordCheck = signUpMember.getPasswordCheck(); // 비밀번호 재확인
+        String password = signUp.getPassword(); // 비밀번호
+        String passwordCheck = signUp.getPasswordCheck(); // 비밀번호 재확인
 
         if (!Objects.equals(password, passwordCheck)) {
             Utils.alertAndBackPage(response, "비밀번호가 일치하지 않습니다.");
+            return;
         }
 
         // 아이디, 전화번호, 이메일 중복 체크
         try {
-            memberService.checkIdDuplication(signUpMember);
-            memberService.checkPhoneNumberDuplication(signUpMember);
-            memberService.checkEmailDuplication(signUpMember);
+            memberService.checkIdDuplication(signUp);
+            memberService.checkPhoneNumberDuplication(signUp);
+            memberService.checkEmailDuplication(signUp);
         } catch (IllegalStateException e) {
             Utils.alertAndBackPage(response, e.getMessage());
+            return;
         }
-        
-        member.setId(signUpMember.getId());
+
+        member = signUp.toEntity();
 
         memberService.memberSave(member);
+
         Utils.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
+        return;
     }
 
     @PostMapping("/login")
-    public void login(@RequestParam Map<String, String> login, HttpServletResponse response, HttpServletRequest request)
+    public void login(@Valid Login login, Errors errors, HttpServletResponse response, HttpServletRequest request)
             throws IOException {
 
-        String id = login.get("id");
-        String password = login.get("password");
+        if (errors.hasErrors()) {
+            Map<String, String> validatorResult = memberService.validateHandling(errors);
+
+            for (String key : validatorResult.keySet()) {
+                Utils.alertAndBackPage(response, validatorResult.get(key));
+                return;
+            }
+        }
+
+        String id = login.getId();
+        String password = login.getPassword();
         Member member = memberService.login(id, password);
 
         if (member != null && id.equals(member.getId())) {
