@@ -1,4 +1,4 @@
-package com.example.AntMan.dto;
+package com.example.AntMan.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 

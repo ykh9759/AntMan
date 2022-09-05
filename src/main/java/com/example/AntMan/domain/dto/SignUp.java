@@ -1,6 +1,6 @@
-package com.example.AntMan.dto;
+package com.example.AntMan.domain.dto;
 
-import com.example.AntMan.domain.Member;
+import com.example.AntMan.domain.entity.Member;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

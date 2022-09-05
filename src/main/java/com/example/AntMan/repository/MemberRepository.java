@@ -1,6 +1,6 @@
 package com.example.AntMan.repository;
 
-import com.example.AntMan.domain.Member;
+import com.example.AntMan.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

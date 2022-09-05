@@ -1,4 +1,4 @@
-package com.example.AntMan.domain;
+package com.example.AntMan.domain.entity;
 
 import javax.persistence.*;
 import lombok.*;

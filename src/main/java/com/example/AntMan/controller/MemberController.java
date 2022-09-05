@@ -2,7 +2,7 @@ package com.example.AntMan.controller;
 
 import com.example.AntMan.service.MemberService;
 import com.example.AntMan.utils.Utils;
-import com.example.AntMan.domain.Member;
+import com.example.AntMan.domain.entity.Member;
 
 import com.example.AntMan.domain.dto.SignUp;
 import com.example.AntMan.domain.dto.Login;
