@@ -6,6 +6,7 @@ import com.example.AntMan.domain.dto.SignUp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,14 +54,17 @@ public class MemberService {
     }
 
     public Member login(String loginId, String password) {
-        Member member = memberRepository.findById(loginId);
+        Optional<Member> member = memberRepository.findById(loginId);
 
-        if (member.getPassword().equals(password)) {
-            return member;
+        if (member.isPresent()) {
+            if (member.get().getPassword().equals(password)) {
+                return member.get();
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
-
     }
 
 }
