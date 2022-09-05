@@ -4,7 +4,7 @@ import com.example.AntMan.repository.MemberRepository;
 import com.example.AntMan.domain.entity.Member;
 import com.example.AntMan.domain.dto.SignUp;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class MemberService {
 
     // 회원가입 유효성 확인
     public Map<String, String> validateHandling(Errors errors) {
-        Map<String, String> validatorResult = new LinkedHashMap<>(); /* 유효성 검사에 실패한 필드 목록을 받음 */
+        Map<String, String> validatorResult = new HashMap<>(); /* 유효성 검사에 실패한 필드 목록을 받음 */
         for (FieldError error : errors.getFieldErrors()) {
             String validKeyName = String.format("%s", error.getField());
             validatorResult.put(validKeyName, error.getDefaultMessage());
@@ -29,24 +29,19 @@ public class MemberService {
     }
 
     /* 아이디, 닉네임, 이메일 중복 여부 확인 */
-    public void checkIdDuplication(SignUp signUp) {
+    public String checkDuplication(SignUp signUp) {
         boolean usernameDuplicate = memberRepository.existsById(signUp.getId());
-        if (usernameDuplicate) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
-        }
-    }
-
-    public void checkPhoneNumberDuplication(SignUp signUp) {
         boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(signUp.getPhoneNumber());
-        if (phoneNumberDuplicate) {
-            throw new IllegalStateException("이미 존재하는 전화번호입니다.");
-        }
-    }
-
-    public void checkEmailDuplication(SignUp signUp) {
         boolean emailDuplicate = memberRepository.existsByEmail(signUp.getEmail());
-        if (emailDuplicate) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+
+        if (usernameDuplicate) {
+            return "이미 존재하는 아이디입니다.";
+        } else if (phoneNumberDuplicate) {
+            return "이미 존재하는 전화번호입니다.";
+        } else if (emailDuplicate) {
+            return "이미 존재하는 이메일입니다.";
+        } else {
+            return null;
         }
     }
 
