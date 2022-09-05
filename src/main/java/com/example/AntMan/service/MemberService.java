@@ -3,7 +3,7 @@ package com.example.AntMan.service;
 import com.example.AntMan.repository.MemberRepository;
 import com.example.AntMan.domain.Member;
 
-import com.example.AntMan.dto.SignUp;
+import com.example.AntMan.domain.dto.SignUp;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

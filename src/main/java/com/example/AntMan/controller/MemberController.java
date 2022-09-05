@@ -4,8 +4,8 @@ import com.example.AntMan.service.MemberService;
 import com.example.AntMan.utils.Utils;
 import com.example.AntMan.domain.Member;
 
-import com.example.AntMan.dto.SignUp;
-import com.example.AntMan.dto.Login;
+import com.example.AntMan.domain.dto.SignUp;
+import com.example.AntMan.domain.dto.Login;
 
 import java.io.IOException;
 import java.util.Map;
