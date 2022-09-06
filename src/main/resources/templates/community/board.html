@@ -16,7 +16,7 @@
 		        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		          <li><a href="/" class="nav-link px-6 link-secondary">홈</a></li>
 		          <li><a href="#" class="nav-link px-6 link-dark">검색</a></li>
-		          <li><a href="community" class="nav-link px-6 link-dark">커뮤니티</a></li>
+		          <li><a href="#" class="nav-link px-6 link-dark">커뮤니티</a></li>
 		        </ul>
 		
 				<div class="col-md-3 text-end">
@@ -29,34 +29,41 @@
 		</div>
     </div>
     <div class="row">
-    	<!-- iframe-->
-        <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 코스피차트
-			  </div>
-			</div>	
-		</div>
-        <div class="col-sm-6 pb-4 px-4">
-        	<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 코스닥차트
-			  </div>
-			</div>
-        </div>
-        <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 상승률순위
-			  </div>
+    	<!-- iframe-->    
+		<div class="col-md-2">
+			<div class="list-group" id="list-tab" role="tablist">
+						<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#">게시판1</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판2</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab"> 게시판3</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판4</a>
 			</div>
 		</div>
-        <div class="col-sm-6 px-4">
-			<div class="card" style="height: 15rem;" >
-			  <div class="card-body">
-				 하락율슌위
-			  </div>
+		<div class="col-md-10" id="community_sub">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+							<h1 class="h2">게시판1</h1>
 			</div>
+			<table class="table">
+				<thead class="table-dark">
+					<tr class="text-center">
+						<th>번호</th>
+						<th style="width:50%">제목</th>
+						<th>글쓴이</th>
+						<th>작성일시</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center">
+						<td>번호</td>
+						<td class="text-start">
+							<a href="javascript:community_sub('1','detail');">제목</a>
+						</td>
+						<td>
+							<span>글쓴이</span>
+						</td>
+						<td>작성일시</td>
+					</tr>
+				</tbody>
+			</table>			
 		</div>
         <!-- /iframe-->
     </div>

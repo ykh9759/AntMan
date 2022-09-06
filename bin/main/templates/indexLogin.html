@@ -16,13 +16,21 @@
 		        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		          <li><a href="/" class="nav-link px-6 link-secondary">홈</a></li>
 		          <li><a href="#" class="nav-link px-6 link-dark">검색</a></li>
-		          <li><a href="community" class="nav-link px-6 link-dark">커뮤니티</a></li>
+		          <li><a href="#" class="nav-link px-6 link-dark">커뮤니티</a></li>
 		        </ul>
 		
-				<div class="col-md-3 text-end">
-					<a href="login" class="btn btn-outline-primary me-2">로그인</a>
-					<a href="sign-up" class="btn btn-primary">회원가입</a>
-				</div>
+		        <div class="dropdown text-end">
+		          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+		            <!-- <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"> -->
+					<div style="display: inline;" th:text="${member.id}"></div>
+		          </a>
+		          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+		            <!-- <li><a class="dropdown-item" href="#">설정</a></li> -->
+		            <li><a class="dropdown-item" href="#">프로필</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+		          </ul>
+		        </div>
 		      </div>
 		    </div>
 		  </header>
@@ -78,7 +86,6 @@
         </div>
     </div>
 </div>
-<!--script src="bootstrap.bundle.min.js"--><!--/script-->
-<script th:src="@{/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
