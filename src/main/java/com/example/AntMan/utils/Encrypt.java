@@ -4,14 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
 public class Encrypt {
 
-	@Bean
-	public String getSalt() {
+	public static String getSalt() {
 
 		// 1. Random, byte 객체 생성
 		SecureRandom r = new SecureRandom();
@@ -25,12 +20,11 @@ public class Encrypt {
 		for (byte b : salt) {
 			sb.append(String.format("%02x", b));
 		}
-
+		
 		return sb.toString();
 	}
 
-	@Bean
-	public String getEncrypt(String pwd, String salt) {
+	public static String getEncrypt(String pwd, String salt) {
 
 		String result = "";
 		try {
