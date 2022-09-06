@@ -1,6 +1,7 @@
 package com.example.AntMan.service;
 
 import com.example.AntMan.repository.MemberRepository;
+import com.example.AntMan.utils.Encrypt;
 import com.example.AntMan.domain.entity.Member;
 import com.example.AntMan.domain.dto.SignUp;
 
@@ -18,6 +19,9 @@ import org.springframework.validation.FieldError;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private Encrypt encrypt;
 
     // 회원가입 유효성 확인
     public Map<String, String> validateHandling(Errors errors) {
@@ -49,15 +53,28 @@ public class MemberService {
     // 회원가입
     @Transactional
     public Member memberSave(Member member) {
+        String salt = encrypt.getSalt();
+        String encodePassword = encrypt.getEncrypt(member.getPassword(), salt);
+
+        member.passwordEncrypt(encodePassword, salt);
+
         memberRepository.save(member);
+
         return member;
     }
 
     public Member login(String loginId, String password) {
+
+        String encodePassword;
+
         Optional<Member> member = memberRepository.findById(loginId);
 
         if (member.isPresent()) {
-            if (member.get().getPassword().equals(password)) {
+
+            encodePassword = encrypt.getEncrypt(password, encrypt.getSalt());
+            System.out.println(encodePassword);
+
+            if (member.get().getPassword().equals(encodePassword)) {
                 return member.get();
             } else {
                 return null;

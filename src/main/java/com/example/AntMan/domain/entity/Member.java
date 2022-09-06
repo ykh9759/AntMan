@@ -18,6 +18,8 @@ public class Member extends Time {
 
     private String password;
 
+    private String salt;
+
     private String name;
 
     @Column(name = "phone_number")
@@ -28,13 +30,20 @@ public class Member extends Time {
     private Integer status;
 
     @Builder
-    public Member(String id, String password, String name, String phoneNumber, String email,
+    public Member(String id, String password, String name, String salt, String phoneNumber, String email,
             Integer status) {
         this.id = id;
         this.password = password;
+        this.salt = salt;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.status = status;
+    }
+
+    public String passwordEncrypt(String encodePassword, String salt) {
+        this.password = encodePassword;
+        this.salt = salt;
+        return this.password;
     }
 }
