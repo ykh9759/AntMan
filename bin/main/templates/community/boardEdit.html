@@ -30,47 +30,34 @@
     </div>
     <div class="row">
     	<!-- iframe-->    
-		<div class="col-md-2">
-			<div class="list-group" id="list-tab" role="tablist">
-						<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#">게시판1</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판2</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab"> 게시판3</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판4</a>
+		<div class="container" role="main">
+			<h2>글쓰기</h2>	
+			<form action="/board-edit/save" method="post" class="needs-validation" novalidate>
+			<div class="mb-3">
+				<label for="board_id">게시판</label>
+				<!--TODO 선택상자로 변경하기-->
+				<input type="text" class="form-control" name="board_id" id="board_id" placeholder="게시판구분을 선택해주세요.">	 
 			</div>
-		</div>
-		<div class="col-md-10" id="community_sub">
-			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-							<h1 class="h2">게시판1</h1>
+			<div class="mb-3">
+				<label for="title">제목</label>
+				<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
 			</div>
-			<table class="table">
-				<thead class="table-dark">
-					<tr class="text-center">
-						<th>번호</th>
-						<th style="width:50%">제목</th>
-						<th>글쓴이</th>
-						<th>작성일시</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="text-center">
-						<td>번호</td>
-						<td class="text-start">
-							<a href="javascript:community_sub('1','detail');" class="text-decoration-none">제목</a>
-						</td>
-						<td>
-							<span>글쓴이</span>
-						</td>
-						<td>작성일시</td>
-					</tr>
-				</tbody>
-			</table>			
+			<div class="mb-3">	
+				<label for="content">내용</label>	
+				<textarea class="form-control" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>	
+			</div>
+			<div class="mb-3">
+				<label for="file">첨부파일</label>
+				<!--TODO 첨부파일 형식으로 변경하기-->
+				<input type="text" class="form-control" name="file" id="file" placeholder="첨부파일">	
+			</div>
+			<div>	
+				<button class="btn btn-sm btn-primary" type="submit">등록</button>
+				<button type="button" class="btn btn-sm btn-primary" id="btnList">취소</button>
+			</div>
+			</form>			
 		</div>
         <!-- /iframe-->
-    </div>
-    <div class="row">
-    	<div class="col-sm-12 text-end">
-					<a href="board-edit" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
-    	</div>
     </div>
     <div class="row">
         <div class="col-sm-12">
