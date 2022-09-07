@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class Utils {
+public class Alert {
     public static void init(HttpServletResponse response) {
         response.setContentType("text/html; charset=euc-kr");
         response.setCharacterEncoding("euc-kr");

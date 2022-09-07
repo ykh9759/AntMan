@@ -1,7 +1,7 @@
 package com.example.AntMan.controller;
 
 import com.example.AntMan.service.MemberService;
-import com.example.AntMan.utils.Utils;
+import com.example.AntMan.utils.Alert;
 import com.example.AntMan.domain.entity.Member;
 
 import com.example.AntMan.domain.dto.SignUp;
@@ -10,6 +10,7 @@ import com.example.AntMan.domain.dto.Login;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,7 @@ public class MemberController {
 
         String password = signUp.getPassword(); // 비밀번호
         String passwordCheck = signUp.getPasswordCheck(); // 비밀번호 재확인
-        String checkDupl; // 중복검사 반환 문자열 저장
+        Optional<String> checkDupl; // 중복검사 반환 문자열 저장
         Member member = signUp.toEntity(); // Entity 객체 생성
 
         // 회원정보 유효성 검사
@@ -41,21 +42,21 @@ public class MemberController {
             Map<String, String> validatorResult = memberService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
-                Utils.alertAndBackPage(response, validatorResult.get(key));
+                Alert.alertAndBackPage(response, validatorResult.get(key));
                 return;
             }
         }
 
         // 비밀번호 재확인 확인
         if (!Objects.equals(password, passwordCheck)) {
-            Utils.alertAndBackPage(response, "비밀번호가 일치하지 않습니다.");
+            Alert.alertAndBackPage(response, "비밀번호가 일치하지 않습니다.");
             return;
         }
 
         // 아이디, 전화번호, 이메일 중복 체크
         checkDupl = memberService.checkDuplication(signUp);
-        if (checkDupl != null) {
-            Utils.alertAndBackPage(response, checkDupl);
+        if (checkDupl.isPresent()) {
+            Alert.alertAndBackPage(response, checkDupl.get());
             return;
         }
 
@@ -63,7 +64,7 @@ public class MemberController {
         memberService.memberSave(member);
 
         // 회원가입 완료 알림창 띄운 후 메인으로 이동
-        Utils.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
+        Alert.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
         return;
     }
 
@@ -75,24 +76,26 @@ public class MemberController {
             Map<String, String> validatorResult = memberService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
-                Utils.alertAndBackPage(response, validatorResult.get(key));
+                Alert.alertAndBackPage(response, validatorResult.get(key));
                 return;
             }
         }
 
         String id = login.getId();
         String password = login.getPassword();
-        Member member = memberService.login(id, password);
+        Optional<Member> member = memberService.login(id, password);
 
-        if (member != null && id.equals(member.getId())) {
+        if (member.isPresent() && id.equals(member.get().getId())) {
             HttpSession session = request.getSession();
-            session.setAttribute("LOGIN_MEMBER", member); // 로그인 회원 세션 저장
+            session.setAttribute("LOGIN_MEMBER", member.get()); // 로그인 회원 세션 저장
 
-            Utils.alertAndMovePage(response, "안녕하세요. " + id + " 님", "/");
+            Alert.alertAndMovePage(response, "안녕하세요. " + id + " 님", "/");
+            return;
+
         } else {
-            Utils.alertAndBackPage(response, "아이디 또는 비밀번호를 확인 해주세요.");
+            Alert.alertAndBackPage(response, "아이디 또는 비밀번호를 확인 해주세요.");
+            return;
         }
-
     }
 
     @GetMapping("/logout")

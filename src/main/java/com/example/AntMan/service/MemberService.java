@@ -31,20 +31,24 @@ public class MemberService {
     }
 
     /* 아이디, 닉네임, 이메일 중복 여부 확인 */
-    public String checkDuplication(SignUp signUp) {
+    public Optional<String> checkDuplication(SignUp signUp) {
+
+        Optional<String> returnStr;
         boolean usernameDuplicate = memberRepository.existsById(signUp.getId());
         boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(signUp.getPhoneNumber());
         boolean emailDuplicate = memberRepository.existsByEmail(signUp.getEmail());
 
         if (usernameDuplicate) {
-            return "이미 존재하는 아이디입니다.";
+            returnStr = Optional.of("이미 존재하는 아이디입니다.");
         } else if (phoneNumberDuplicate) {
-            return "이미 존재하는 전화번호입니다.";
+            returnStr = Optional.of("이미 존재하는 전화번호입니다.");
         } else if (emailDuplicate) {
-            return "이미 존재하는 이메일입니다.";
+            returnStr = Optional.of("이미 존재하는 이메일입니다.");
         } else {
-            return null;
+            returnStr = Optional.empty();
         }
+
+        return returnStr;
     }
 
     // 회원가입
@@ -60,7 +64,8 @@ public class MemberService {
         return member;
     }
 
-    public Member login(String loginId, String password) {
+    // 로그인
+    public Optional<Member> login(String loginId, String password) {
 
         String loginPassword;
 
@@ -70,15 +75,13 @@ public class MemberService {
 
             loginPassword = Encrypt.getEncrypt(password, member.get().getSalt());
 
-            System.out.println(loginPassword);
-
             if (member.get().getPassword().equals(loginPassword)) {
-                return member.get();
+                return member;
             } else {
-                return null;
+                return Optional.empty();
             }
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
