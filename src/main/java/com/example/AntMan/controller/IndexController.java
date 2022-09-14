@@ -15,6 +15,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IndexController {
 
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
+
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);

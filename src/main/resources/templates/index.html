@@ -31,30 +31,32 @@
     <div class="row">
     	<!-- iframe-->
         <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
+			<div class="card">
 			  <div class="card-body">
-				 코스피차트
+				 <div id="kospi"></div>
 			  </div>
 			</div>	
 		</div>
         <div class="col-sm-6 pb-4 px-4">
-        	<div class="card" style="height: 15rem;" >
+        	<div class="card">
 			  <div class="card-body">
-				 코스닥차트
+				 <div id="kosdaq"></div>
 			  </div>
 			</div>
         </div>
         <div class="col-sm-6 pb-4 px-4">
-			<div class="card" style="height: 15rem;" >
+			<div class="card">
 			  <div class="card-body">
 				 상승률순위
+				 <div id="top-rate"></div>
 			  </div>
 			</div>
 		</div>
         <div class="col-sm-6 px-4">
-			<div class="card" style="height: 15rem;" >
+			<div class="card">
 			  <div class="card-body">
 				 하락율슌위
+				 <div id="top-drop"></div>
 			  </div>
 			</div>
 		</div>
@@ -78,7 +80,147 @@
         </div>
     </div>
 </div>
-<!--script src="bootstrap.bundle.min.js"--><!--/script-->
-<script th:src="@{/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+	//columns [시가, 최고, 최저, 종가]
+	var kospi = bb.generate({
+		title: {
+			text: "코스피 차트"
+		},
+		data: {
+			columns: [
+				["KOSPI", [1327, 1369, 1289, 1348],
+				[1348, 1371, 1314, 1320],
+				[1320, 1412, 1314, 1394],
+				[1394, 1458, 1393, 1453],
+				[1453, 1501, 1448, 1500],
+				[1500, 1510, 1492, 1496],
+				[1496, 1496, 1448, 1448],
+				[1448, 1490, 1433, 1490],
+				[1490, 1544, 1490, 1537],
+				[1537, 1563, 1534, 1544],
+				[1544, 1550, 1511, 1525],
+				[1525, 1609, 1517, 1604],
+				[1604, 1614, 1585, 1592],
+				[1592, 1632, 1586, 1620],
+				[1620, 1633, 1609, 1622],
+				[1622, 1697, 1620, 1687],
+				[1687, 1691, 1624, 1648],
+				[1648, 1689, 1640, 1671],
+				[1671, 1702, 1671, 1695],
+				[1695, 1727, 1689, 1724],
+				[1724, 1733, 1691, 1696],
+				[1696, 1733, 1696, 1731],
+				[1731, 1756, 1716, 1748],
+				[1748, 1769, 1734, 1762],
+				[1762, 1792, 1752, 1778],
+				[1778, 1783, 1763, 1769],
+				[1769, 1791, 1740, 1755],
+				[1755, 1755, 1711, 1725],
+				[1725, 1739, 1683, 1701],
+				[1701, 1731, 1694, 1730],
+				[1730, 1739, 1703, 1715],
+				[1715, 1745, 1710, 1731],
+			]],
+			type: "candlestick", // for ESM specify as: candlestick()
+			colors: {
+				KOSPI: "red"
+			},
+		},
+		candlestick: {
+			color: {
+				down: "blue"
+			},
+			width: {
+				ratio: 0.5
+			}
+		},
+		axis: {
+			x: {
+				padding: {
+					left: 1,
+					right: 1
+				}
+			},
+			y: {
+				show: false
+			},
+			y2: {
+				show: true
+			}
+		},
+		bindto: "#kospi"
+	});
+
+	var kosdaq = bb.generate({
+		title: {
+			text: "코스닥 차트"
+		},
+		data: {
+			columns: [
+				["KOSDAQ", [1327, 1369, 1289, 1348],
+				[1348, 1371, 1314, 1320],
+				[1320, 1412, 1314, 1394],
+				[1394, 1458, 1393, 1453],
+				[1453, 1501, 1448, 1500],
+				[1500, 1510, 1492, 1496],
+				[1496, 1496, 1448, 1448],
+				[1448, 1490, 1433, 1490],
+				[1490, 1544, 1490, 1537],
+				[1537, 1563, 1534, 1544],
+				[1544, 1550, 1511, 1525],
+				[1525, 1609, 1517, 1604],
+				[1604, 1614, 1585, 1592],
+				[1592, 1632, 1586, 1620],
+				[1620, 1633, 1609, 1622],
+				[1622, 1697, 1620, 1687],
+				[1687, 1691, 1624, 1648],
+				[1648, 1689, 1640, 1671],
+				[1671, 1702, 1671, 1695],
+				[1695, 1727, 1689, 1724],
+				[1724, 1733, 1691, 1696],
+				[1696, 1733, 1696, 1731],
+				[1731, 1756, 1716, 1748],
+				[1748, 1769, 1734, 1762],
+				[1762, 1792, 1752, 1778],
+				[1778, 1783, 1763, 1769],
+				[1769, 1791, 1740, 1755],
+				[1755, 1755, 1711, 1725],
+				[1725, 1739, 1683, 1701],
+				[1701, 1731, 1694, 1730],
+				[1730, 1739, 1703, 1715],
+				[1715, 1745, 1710, 1731],
+			]],
+			type: "candlestick", // for ESM specify as: candlestick()
+			colors: {
+				KOSDAQ: "red"
+			},
+		},
+		candlestick: {
+			color: {
+				down: "blue"
+			},
+			width: {
+				ratio: 0.5
+			}
+		},
+		axis: {
+			x: {
+				padding: {
+					left: 1,
+					right: 1
+				}
+			},
+			y: {
+				show: false
+			},
+			y2: {
+				show: true
+			}
+			
+		},
+		bindto: "#kosdaq"
+	});
+</script>
 </body>
 </html>

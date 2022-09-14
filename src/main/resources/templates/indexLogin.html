@@ -42,6 +42,7 @@
 			<div class="card" style="height: 15rem;" >
 			  <div class="card-body">
 				 코스피차트
+				 <div id="chart"></div>
 			  </div>
 			</div>	
 		</div>
@@ -87,5 +88,17 @@
     </div>
 </div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+	var chart = bb.generate({
+    bindto: "#chart",
+    data: {
+        type: "bar",
+        columns: [
+            ["data1", 30, 200, 100, 170, 150, 250],
+            ["data2", 130, 100, 140, 35, 110, 50]
+        ]
+    }
+});
+</script>
 </body>
 </html>

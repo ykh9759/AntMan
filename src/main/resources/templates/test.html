@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<th:block th:include="~{include/header}"></th:block>
+<!-- <link rel="stylesheet" type="text/css" th:href="@{/css/billboard.css}"> -->
+
+<body>
+<div id="chart"></div>
+
+<script>
+var chart = bb.generate({
+    bindto: "#chart",
+    data: {
+        type: "bar",
+        columns: [
+            ["data1", 30, 200, 100, 170, 150, 250],
+            ["data2", 130, 100, 140, 35, 110, 50]
+        ]
+    }
+});
+</script>
+</body>
+</html>
