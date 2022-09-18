@@ -46,9 +46,4 @@ public class IndexController {
         return "member/signUp";
     }
     
-    @RequestMapping("/community")
-    public String community() {
-        return "community/board";
-    }
-    
 }

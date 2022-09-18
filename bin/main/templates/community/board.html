@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="~{include/header}"></th:block>
 <body>
 <div class="container">
@@ -52,12 +52,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-center">
-						<td>번호</td>
+					<tr class="text-center" th:each="list : ${boardList}" >
+						<td th:text="${list.no}">번호</td>
 						<td class="text-start">
-							<a href="javascript:community_sub('1','detail');" class="text-decoration-none">제목</a>
+							<a href="javascript:community_sub('1','detail');" class="text-decoration-none" th:text="${list.title}" ></a>
 						</td>
-						<td>
+						<td th:text="${list.user_no}">
 							<span>글쓴이</span>
 						</td>
 						<td>작성일시</td>
