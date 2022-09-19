@@ -1,6 +1,7 @@
 package com.example.AntMan.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import com.example.AntMan.domain.dto.Edit;
@@ -27,24 +29,39 @@ public class CommunityController {
 
 	Board board;
 	
+	/*
 	@RequestMapping("/community")
     public String community(Model model) {
         List<Board> boardList = this.boardService.getList();
         model.addAttribute("boardList", boardList);
 		return "community/board";
     }
+    */
+    
+	@GetMapping("/community")
+    public String community(Model model, @RequestParam String id) {
+        // TODO getList(id)로 수정하기
+		List<Board> boardList = this.boardService.getList();
+        model.addAttribute("boardList", boardList);
+		return "community/board";
+    }
 	
 	@GetMapping("/board-edit")
-    public String signUp() {
+    public String boardEdit() {
         return "community/boardEdit";
     }	
 	
-	//@Valid SignUp signUp, Errors errors, HttpServletResponse response
-	//TODO 글쓰기 등록 로직 만들기 
 	@PostMapping("/board-edit/save")
 	public void questionCreate(@Valid Edit edit, Errors errors, HttpServletResponse response) throws Exception {
         
-		//TODO 에러확인 만들기 (null 체크)
+		if (errors.hasErrors()) {
+            Map<String, String> validatorResult = boardService.validateHandling(errors);
+
+            for (String key : validatorResult.keySet()) {
+                Utils.alertAndBackPage(response, validatorResult.get(key));
+                return;
+            }
+        }
 		
 		board = edit.toEntity();
 

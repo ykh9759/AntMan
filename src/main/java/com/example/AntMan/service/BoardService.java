@@ -7,16 +7,29 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
 	@Autowired
     private BoardRepository boradRepository;
 	
+	public Map<String, String> validateHandling(Errors errors) {
+        Map<String, String> validatorResult = new LinkedHashMap<>(); /* 유효성 검사에 실패한 필드 목록을 받음 */
+        for (FieldError error : errors.getFieldErrors()) {
+            String validKeyName = String.format("%s", error.getField());
+            validatorResult.put(validKeyName, error.getDefaultMessage());
+        }
+        return validatorResult;
+    }
+	
 	public List<Board> getList() {
-		// 일단 테스트로 전체조회 
+		// TODO 게시판아이디 게시물리스트 가져오도록 수정
 		return this.boradRepository.findAll();
 	}
 	

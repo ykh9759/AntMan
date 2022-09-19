@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
-
+	// TODO 게시판 id로 게시물 리스트 검색
 }
