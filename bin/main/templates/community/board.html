@@ -32,10 +32,10 @@
     	<!-- iframe-->    
 		<div class="col-md-2">
 			<div class="list-group" id="list-tab" role="tablist">
-						<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#">게시판1</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판2</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab"> 게시판3</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">게시판4</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=1">게시판1</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=2" role="tab">게시판2</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=3" role="tab"> 게시판3</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=4" role="tab">게시판4</a>
 			</div>
 		</div>
 		<div class="col-md-10" id="community_sub">
@@ -57,7 +57,7 @@
 						<td class="text-start">
 							<a href="javascript:community_sub('1','detail');" class="text-decoration-none" th:text="${list.title}" ></a>
 						</td>
-						<td th:text="${list.user_no}">
+						<td th:text="${list.userNo}">
 							<span>글쓴이</span>
 						</td>
 						<td>작성일시</td>

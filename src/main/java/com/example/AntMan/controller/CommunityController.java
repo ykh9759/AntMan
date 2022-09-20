@@ -40,8 +40,7 @@ public class CommunityController {
     
 	@GetMapping("/community")
     public String community(Model model, @RequestParam String id) {
-        // TODO getList(id)로 수정하기
-		List<Board> boardList = this.boardService.getList();
+		List<Board> boardList = this.boardService.getList(Integer.valueOf(id));
         model.addAttribute("boardList", boardList);
 		return "community/board";
     }
@@ -67,7 +66,7 @@ public class CommunityController {
 
         boardService.boardSave(board);
 
-        Utils.alertAndMovePage(response, "등록 되었습니다.", "/community");
+        Utils.alertAndMovePage(response, "등록 되었습니다.", "/community?id=1");
 		
 		return;
     }

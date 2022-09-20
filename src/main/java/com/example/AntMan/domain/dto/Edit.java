@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Edit {
 	
 	//@NotBlank(message = "게시판을 선택해주세요.") <- integer NotBlank 쓰면 오류나는듯
-	private Integer board_no; // 게시판 분류번호
+	private Integer boardNo; // 게시판 분류번호
 	
 	// private Integer user_no;
 	
@@ -26,11 +26,11 @@ public class Edit {
 	
 	public Board toEntity() {
 		return Board.builder()
-                .board_no(board_no)
-                .user_no(0) // test
+                .boardNo(boardNo)
+                .userNo(0) // test
                 .title(title)
                 .contents(contents)
-                .view_count(0)
+                .viewCount(0)
                 .build();
 	}
 	

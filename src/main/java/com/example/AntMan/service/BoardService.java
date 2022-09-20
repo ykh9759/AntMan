@@ -28,9 +28,8 @@ public class BoardService {
         return validatorResult;
     }
 	
-	public List<Board> getList() {
-		// TODO 게시판아이디 게시물리스트 가져오도록 수정
-		return this.boradRepository.findAll();
+	public List<Board> getList(Integer id) {
+		return this.boradRepository.findByboardNo(id);
 	}
 	
 	// 글저장

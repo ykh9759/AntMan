@@ -14,24 +14,24 @@ public class Board extends Time {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
     private Integer no;
 	
-	private Integer board_no; // 게시판 분류번호
+	private Integer boardNo; // 게시판 분류번호
 	
-	private Integer user_no;
+	private Integer userNo;
 	
 	private String title;
 	
 	@Column(columnDefinition = "LONGTEXT")
 	private String contents;
 	
-	private Integer view_count;
+	private Integer viewCount;
 	
 	@Builder
-    public Board(Integer board_no, Integer user_no, String title, String contents, Integer view_count) {
-        this.board_no = board_no;
-        this.user_no = user_no;
+    public Board(Integer boardNo, Integer userNo, String title, String contents, Integer viewCount) {
+        this.boardNo = boardNo;
+        this.userNo = userNo;
         this.title = title;
         this.contents = contents;
-        this.view_count = view_count;
+        this.viewCount = viewCount;
     }
 	
 }
