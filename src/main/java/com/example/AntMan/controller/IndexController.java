@@ -23,19 +23,17 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
+        Member member;
 
-        if (session == null) {
-            return "index";
-        }
-
-        Member member = (Member) session.getAttribute("LOGIN_MEMBER");
-
-        if (member == null) {
-            return "index";
+        if (session != null) {
+            member = (Member) session.getAttribute("LOGIN_MEMBER");
+        } else {
+            member = null;
         }
 
         model.addAttribute("member", member);
-        return "indexLogin";
+
+        return "index";
     }
 
     @GetMapping("/login")
@@ -46,5 +44,10 @@ public class IndexController {
     @GetMapping("/sign-up")
     public String signUp() {
         return "member/signUp";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "search";
     }
 }
