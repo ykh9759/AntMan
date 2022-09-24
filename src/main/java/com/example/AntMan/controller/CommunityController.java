@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import com.example.AntMan.domain.dto.Edit;
+import com.example.AntMan.domain.dto.EditList;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.service.BoardService;
 import com.example.AntMan.utils.Utils;
@@ -38,9 +39,16 @@ public class CommunityController {
     }
     */
     
+//	@GetMapping("/community")
+//    public String community(Model model, @RequestParam String id) {
+//		List<Board> boardList = this.boardService.getList(Integer.valueOf(id));
+//        model.addAttribute("boardList", boardList);
+//		return "community/board";
+//    }
+	
 	@GetMapping("/community")
     public String community(Model model, @RequestParam String id) {
-		List<Board> boardList = this.boardService.getList(Integer.valueOf(id));
+		List<EditList> boardList = this.boardService.getList(Integer.valueOf(id));
         model.addAttribute("boardList", boardList);
 		return "community/board";
     }
