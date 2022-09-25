@@ -16,7 +16,9 @@ public class StockController {
     @GetMapping("/getStock")
     public String getStock(Model model) {
 
-        return "";
+        String kospi = stockService.getKospi();
+        model.addAttribute("kospi", kospi);
+        return "test";
     }
 
 }
