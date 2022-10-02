@@ -32,15 +32,16 @@
     	<!-- iframe-->    
 		<div class="col-md-2">
 			<div class="list-group" id="list-tab" role="tablist">
-						<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="community?id=1">게시판1</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=2" role="tab">게시판2</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=3" role="tab"> 게시판3</a>
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="community?id=4" role="tab">게시판4</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" 
+						th:each="boardList : ${boardList}" th:utext="${boardList.name}" 
+						th:classappend="${boardList.no} == ${boardName.no} ? active"
+						th:href="@{/community(id = ${boardList.no})}">
+						</a>
 			</div>
 		</div>
 		<div class="col-md-10" id="community_sub">
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-							<h1 class="h2">게시판1</h1>
+							<h1 class="h2" th:text="${boardName.name}"></h1>
 			</div>
 			<table class="table">
 				<thead class="table-dark">
@@ -52,12 +53,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-center" th:each="list : ${boardList}" >
-						<td th:text="${list.no}">번호</td>
+					<tr class="text-center" th:each="editlist : ${editList}" >
+						<td th:text="${editlist.no}">번호</td>
 						<td class="text-start">
-							<a href="javascript:community_sub('1','detail');" class="text-decoration-none" th:text="${list.title}" ></a>
+							<a href="javascript:community_sub('1','detail');" class="text-decoration-none" th:text="${editlist.title}" ></a>
 						</td>
-						<td th:text="${list.userNo}">
+						<td th:text="${editlist.userNo}">
 							<span>글쓴이</span>
 						</td>
 						<td>작성일시</td>

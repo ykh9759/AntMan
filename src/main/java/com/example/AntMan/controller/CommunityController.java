@@ -11,13 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
+import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.Edit;
 import com.example.AntMan.domain.dto.EditList;
 import com.example.AntMan.domain.entity.Board;
+import com.example.AntMan.domain.entity.BoardDivList;
 import com.example.AntMan.service.BoardService;
 import com.example.AntMan.utils.Utils;
 
@@ -48,7 +49,11 @@ public class CommunityController {
 	
 	@GetMapping("/community")
     public String community(Model model, @RequestParam String id) {
-		List<EditList> boardList = this.boardService.getList(Integer.valueOf(id));
+		List<EditList> editList = this.boardService.getList(Integer.valueOf(id));
+		List<BoardList> boardList = this.boardService.getDivList();
+		BoardDivList boardName = this.boardService.getDivName(Integer.valueOf(id));
+		model.addAttribute("boardName", boardName);
+        model.addAttribute("editList", editList);
         model.addAttribute("boardList", boardList);
 		return "community/board";
     }

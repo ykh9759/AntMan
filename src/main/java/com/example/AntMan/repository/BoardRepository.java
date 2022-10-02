@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 	
 	//게시판 id로 게시물 리스트 검색
-	public List<Board> findByboardNo(Integer boardNo);
+	public List<Board> findByboardDiv(Integer boardDiv);
+	
 }

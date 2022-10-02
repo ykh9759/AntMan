@@ -14,7 +14,7 @@ public class Board extends Time {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
     private Integer no;
 	
-	private Integer boardNo; // 게시판 분류번호
+	private Integer boardDiv; // 게시판 분류번호
 	
 	private Integer userNo;
 	
@@ -26,8 +26,8 @@ public class Board extends Time {
 	private Integer viewCount;
 	
 	@Builder
-    public Board(Integer boardNo, Integer userNo, String title, String contents, Integer viewCount) {
-        this.boardNo = boardNo;
+    public Board(Integer boardDiv, Integer userNo, String title, String contents, Integer viewCount) {
+        this.boardDiv = boardDiv;
         this.userNo = userNo;
         this.title = title;
         this.contents = contents;
