@@ -2,12 +2,13 @@ package com.example.AntMan.service;
 
 import org.springframework.stereotype.Service;
 import com.example.AntMan.utils.Api;
+import com.google.gson.JsonObject;
 
 @Service
 public class StockService {
 
-    public String getKospi() {
-        String result = Api.callApi();
+    public Object getKospi() {
+        Object result = Api.getStockMarketIndex();
 
         return result;
     }
