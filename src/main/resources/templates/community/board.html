@@ -61,7 +61,7 @@
 						<td th:text="${editlist.userNo}">
 							<span>글쓴이</span>
 						</td>
-						<td>작성일시</td>
+						<td th:text="${#dates.format(editlist.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성일시</td>
 					</tr>
 				</tbody>
 			</table>			

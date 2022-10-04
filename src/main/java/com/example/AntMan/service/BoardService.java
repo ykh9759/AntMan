@@ -48,6 +48,8 @@ public class BoardService {
 					.boardDiv(boardEntity.getBoardDiv())
 					.userNo(boardEntity.getUserNo())
 					.title(boardEntity.getTitle())
+					.created_time(boardEntity.getCreated_time())
+					.updated_time(boardEntity.getUpdated_time())
 					.build();
 			
 			editDtoList.add(editList);
