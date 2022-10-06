@@ -1,13 +1,18 @@
 package com.example.AntMan.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.service.StockService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,13 +20,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IndexController {
 
+    @Autowired
+    StockService stockService;
+
     @GetMapping("/test")
     public String test() {
         return "test";
     }
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model) {
+    public String index(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
         HttpSession session = request.getSession(false);
         Member member;
 
@@ -32,6 +40,9 @@ public class IndexController {
         }
 
         model.addAttribute("member", member);
+
+        Object kospi = stockService.getStockMarketIndex("코스피");
+        model.addAttribute("kospi", kospi);
 
         return "index";
     }

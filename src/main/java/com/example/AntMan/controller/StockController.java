@@ -20,7 +20,7 @@ public class StockController {
 
         Object kospi = stockService.getStockMarketIndex("코스피");
         model.addAttribute("kospi", kospi);
-        return "test";
+        return "index";
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.AntMan.service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import com.example.AntMan.utils.Api;
@@ -15,6 +16,7 @@ public class StockService {
         // 한글은 url 인코딩을 해준다
         String encodeIdxNm = URLEncoder.encode(idxNm, "UTF-8");
 
+        // url세팅
         StringBuilder url = new StringBuilder();
         url.append("http://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex");
         url.append(
@@ -22,6 +24,7 @@ public class StockService {
         url.append("&numOfRows=22");
         url.append("&idxNm=" + encodeIdxNm);
         url.append("&resultType=json");
+        url.append("&beginBasDt=20220930");
 
         System.out.print(url);
 
@@ -29,7 +32,10 @@ public class StockService {
         param.put("type", "GET");
         param.put("url", url.toString());
 
-        JSONObject result = Api.callApi(param);
+        JSONObject apiData = Api.callApi(param);
+
+        Object result = apiData.getJSONObject("response").getJSONObject("body").getJSONObject("items")
+                .get("item");
 
         return result;
     }
