@@ -10190,7 +10190,7 @@ function getTextPos(pos, width) {
             close = _map3[3],
             volume = _map3[4];
 
-        value = "<b>시가:</b> " + open + "원, <b>최고:</b> " + _high + "원, <b>최저:</b> " + _low + "원, <b>종가:</b> " + close + (volume ? " <b>Volume:</b> " + volume : "") + "원";
+        value = "<b>시가:</b> " + open + ", <b>최고:</b> " + _high + ", <b>최저:</b> " + _low + ", <b>종가:</b> " + close + (volume ? " <b>Volume:</b> " + volume : "");
       } else if ($$.isBarRangeType(row)) {
         var _row$value = row.value,
             start = _row$value[0],
