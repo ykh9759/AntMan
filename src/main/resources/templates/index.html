@@ -5,14 +5,14 @@
 <div class="container">
     <th:block th:include="~{common/header}"></th:block>
     <div class="row">
-        <div class="col-sm-6 pb-4 px-4">
+        <div class="col-sm-12 pb-4 px-4">
 			<div class="card">
 			  <div class="card-body">
 				 <div id="kospi"></div>
 			  </div>
 			</div>	
 		</div>
-        <div class="col-sm-6 pb-4 px-4">
+        <div class="col-sm-12 pb-4 px-4">
         	<div class="card">
 			  <div class="card-body">
 				 <div id="kosdaq"></div>
@@ -47,13 +47,18 @@
 
 	var kospiArray = new Array();
 	var kosdaqArray = new Array();
+	var kospiDateArray = new Array();
 
 	for(var i = 0; i <kospiData.length+1; i++) {
 
 		if(i == 0) {
 			kospiArray[0] = "KOSPI";
+			kospiDateArray[0] = "x";
+
 		} else {
 			kospiArray[i] = [parseInt(kospiData[i-1].mkp), parseInt(kospiData[i-1].hipr), parseInt(kospiData[i-1].lopr), parseInt(kospiData[i-1].clpr)];
+			kospiDateArray[i] = (kospiData[i-1].basDt).slice(0,4) + "-"+ (kospiData[i-1].basDt).slice(4,6) + "-" + (kospiData[i-1].basDt).slice(6,8);
+			console.log(kospiDateArray[i]);
 		}
 
 	}
@@ -64,7 +69,11 @@
 			text: "코스피 차트"
 		},
 		data: {
-			columns: [kospiArray],
+			x: kospiDateArray[0],
+			columns: [
+				kospiArray,
+				kospiDateArray
+			],
 			type: "candlestick", // for ESM specify as: candlestick()
 			colors: {
 				KOSPI: "red"
@@ -80,9 +89,11 @@
 		},
 		axis: {
 			x: {
-				padding: {
-					left: 1,
-					right: 1
+				type: "timeseries",
+				tick: {
+					fit: true,
+					count: 8,
+					format: "%m-%d"
 				}
 			},
 			y: {
