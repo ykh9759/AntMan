@@ -43,12 +43,11 @@
 
 	/*<![CDATA[*/
 	var kospiData = /*[[${kospi}]]*/"";
+	var kosdaqData = /*[[${kosdaq}]]*/"";
     /*]]*/
 
 	var kospiArray = new Array();
-	var kosdaqArray = new Array();
 	var kospiDateArray = new Array();
-
 	for(var i = 0; i <kospiData.length+1; i++) {
 
 		if(i == 0) {
@@ -58,9 +57,22 @@
 		} else {
 			kospiArray[i] = [parseInt(kospiData[i-1].mkp), parseInt(kospiData[i-1].hipr), parseInt(kospiData[i-1].lopr), parseInt(kospiData[i-1].clpr)];
 			kospiDateArray[i] = (kospiData[i-1].basDt).slice(0,4) + "-"+ (kospiData[i-1].basDt).slice(4,6) + "-" + (kospiData[i-1].basDt).slice(6,8);
-			console.log(kospiDateArray[i]);
 		}
+	}
 
+
+	var kosdaqArray = new Array();
+	var kosdaqDateArray = new Array();
+	for(var i = 0; i <kosdaqData.length+1; i++) {
+
+		if(i == 0) {
+			kosdaqArray[0] = "KOSDAQ";
+			kosdaqDateArray[0] = "x";
+
+		} else {
+			kosdaqArray[i] = [parseInt(kosdaqData[i-1].mkp), parseInt(kosdaqData[i-1].hipr), parseInt(kosdaqData[i-1].lopr), parseInt(kosdaqData[i-1].clpr)];
+			kosdaqDateArray[i] = (kosdaqData[i-1].basDt).slice(0,4) + "-"+ (kosdaqData[i-1].basDt).slice(4,6) + "-" + (kosdaqData[i-1].basDt).slice(6,8);
+		}
 	}
 
 	//columns [시가, 최고, 최저, 종가]
@@ -91,7 +103,6 @@
 			x: {
 				type: "timeseries",
 				tick: {
-					fit: true,
 					count: 8,
 					format: "%m-%d"
 				}
@@ -111,40 +122,11 @@
 			text: "코스닥 차트"
 		},
 		data: {
+			x: kosdaqDateArray[0],
 			columns: [
-				["KOSDAQ", [1327, 1369, 1289, 1348],
-				[1348, 1371, 1314, 1320],
-				[1320, 1412, 1314, 1394],
-				[1394, 1458, 1393, 1453],
-				[1453, 1501, 1448, 1500],
-				[1500, 1510, 1492, 1496],
-				[1496, 1496, 1448, 1448],
-				[1448, 1490, 1433, 1490],
-				[1490, 1544, 1490, 1537],
-				[1537, 1563, 1534, 1544],
-				[1544, 1550, 1511, 1525],
-				[1525, 1609, 1517, 1604],
-				[1604, 1614, 1585, 1592],
-				[1592, 1632, 1586, 1620],
-				[1620, 1633, 1609, 1622],
-				[1622, 1697, 1620, 1687],
-				[1687, 1691, 1624, 1648],
-				[1648, 1689, 1640, 1671],
-				[1671, 1702, 1671, 1695],
-				[1695, 1727, 1689, 1724],
-				[1724, 1733, 1691, 1696],
-				[1696, 1733, 1696, 1731],
-				[1731, 1756, 1716, 1748],
-				[1748, 1769, 1734, 1762],
-				[1762, 1792, 1752, 1778],
-				[1778, 1783, 1763, 1769],
-				[1769, 1791, 1740, 1755],
-				[1755, 1755, 1711, 1725],
-				[1725, 1739, 1683, 1701],
-				[1701, 1731, 1694, 1730],
-				[1730, 1739, 1703, 1715],
-				[1715, 1745, 1710, 1731],
-			]],
+				kosdaqArray,
+				kosdaqDateArray
+			],
 			type: "candlestick", // for ESM specify as: candlestick()
 			colors: {
 				KOSDAQ: "red"
@@ -160,9 +142,10 @@
 		},
 		axis: {
 			x: {
-				padding: {
-					left: 1,
-					right: 1
+				type: "timeseries",
+				tick: {
+					count: 8,
+					format: "%m-%d"
 				}
 			},
 			y: {

@@ -50,8 +50,10 @@ public class IndexController {
         model.addAttribute("member", member);
 
         List<Kospi> kospi = stockService.getStockMarketIndex("코스피");
+        List<Kospi> kosdaq = stockService.getStockMarketIndex("코스닥");
 
         model.addAttribute("kospi", kospi);
+        model.addAttribute("kosdaq", kosdaq);
 
         return "index";
     }
