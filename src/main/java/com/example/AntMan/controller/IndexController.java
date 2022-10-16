@@ -1,6 +1,5 @@
 package com.example.AntMan.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,6 @@ import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockTopRise;
 import com.example.AntMan.domain.entity.Member;
 import com.example.AntMan.service.StockService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import lombok.RequiredArgsConstructor;
 
