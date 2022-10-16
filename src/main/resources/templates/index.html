@@ -22,8 +22,28 @@
         <div class="col-sm-6 pb-4 px-4">
 			<div class="card">
 			  <div class="card-body">
-				 상승률순위
-				 <div id="top-rate"></div>
+				  코스피 상승
+				 <div id="top-rate-kospi">
+					<div th:text="${KospiTopRise[0].rank}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[0].stockName}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[0].price}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[0].netChange}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[0].fluctuationRate}" class="d-inline"></div>
+					<br>
+					<div th:text="${KospiTopRise[1].rank}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[1].stockName}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[1].price}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[1].netChange}" class="d-inline"></div>
+					<div th:text="${KospiTopRise[1].fluctuationRate}" class="d-inline"></div>
+				 </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-sm-6 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				  코스닥 상승
+				 <div id="top-rate-kosdaq"></div>
 			  </div>
 			</div>
 		</div>

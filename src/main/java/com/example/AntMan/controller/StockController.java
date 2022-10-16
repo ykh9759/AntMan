@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.AntMan.domain.dto.Kospi;
+import com.example.AntMan.domain.dto.StockIndex;
+import com.example.AntMan.domain.dto.StockInfo;
 import com.example.AntMan.service.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,9 +24,13 @@ public class StockController {
     public String getStock(Model model)
             throws UnsupportedEncodingException, JsonMappingException, JsonProcessingException {
 
-        List<Kospi> kospi = stockService.getStockMarketIndex("코스피");
-        model.addAttribute("kospi", kospi);
-        return "index";
+        // List<StockIndex> data = stockService.getStockMarketIndex("코스피");
+        // List<StockInfo> data = stockService.getStockPriceInfo("삼성전자");
+
+        String data = stockService.getStockTopRise("0");
+        model.addAttribute("data", data);
+
+        return "test";
     }
 
 }

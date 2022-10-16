@@ -6,14 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.AntMan.domain.dto.Kospi;
+import com.example.AntMan.domain.dto.StockIndex;
+import com.example.AntMan.domain.dto.StockTopRise;
 import com.example.AntMan.domain.entity.Member;
 import com.example.AntMan.service.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,8 +35,7 @@ public class IndexController {
 
     // 메인페이지
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model)
-            throws UnsupportedEncodingException, JsonMappingException, JsonProcessingException {
+    public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         Member member;
 
@@ -49,11 +47,15 @@ public class IndexController {
 
         model.addAttribute("member", member);
 
-        List<Kospi> kospi = stockService.getStockMarketIndex("코스피");
-        List<Kospi> kosdaq = stockService.getStockMarketIndex("코스닥");
+        List<StockIndex> kospi = stockService.getStockMarketIndex("코스피");
+        List<StockIndex> kosdaq = stockService.getStockMarketIndex("코스닥");
 
         model.addAttribute("kospi", kospi);
         model.addAttribute("kosdaq", kosdaq);
+
+        List<StockTopRise> KospiTopRise = stockService.getStockTopRise("0", 10); // 코스피 상승 상위
+
+        model.addAttribute("KospiTopRise", KospiTopRise);
 
         return "index";
     }
@@ -71,7 +73,7 @@ public class IndexController {
     }
 
     // 검색 페이지
-    @GetMapping("/search")
+    @GetMapping("/stock-search")
     public String search() {
         return "search";
     }
