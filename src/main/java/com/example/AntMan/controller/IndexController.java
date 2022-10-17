@@ -51,8 +51,10 @@ public class IndexController {
         model.addAttribute("kosdaq", kosdaq);
 
         List<StockTopRise> KospiTopRise = stockService.getStockTopRise("0", 10); // 코스피 상승 상위
+        List<StockTopRise> KosdaqTopRise = stockService.getStockTopRise("1", 10); // 코스피 상승 상위
 
         model.addAttribute("KospiTopRise", KospiTopRise);
+        model.addAttribute("KosdaqTopRise", KosdaqTopRise);
 
         return "index";
     }

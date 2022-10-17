@@ -19,31 +19,59 @@
 			  </div>
 			</div>
         </div>
-        <div class="col-sm-6 pb-4 px-4">
+        <div class="col-sm-12 pb-4 px-4">
 			<div class="card">
 			  <div class="card-body">
-				  코스피 상승
-				 <div id="top-rate-kospi">
-					<div th:text="${KospiTopRise[0].rank}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[0].stockName}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[0].price}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[0].netChange}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[0].fluctuationRate}" class="d-inline"></div>
-					<br>
-					<div th:text="${KospiTopRise[1].rank}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[1].stockName}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[1].price}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[1].netChange}" class="d-inline"></div>
-					<div th:text="${KospiTopRise[1].fluctuationRate}" class="d-inline"></div>
+				<div class="text-center mb-3">코스피 상승</div>
+				<div id="top-rate-kospi">
+					<table>
+						<tr class="text-center">
+							<th class="col-md-2">순위</th>
+							<th class="col-md-5">종목명</th>
+							<th class="col-md-2">현재가</th>
+							<th class="col-md-2">전일비</th>
+							<th class="col-md-2">등락율</th>
+						</tr>
+						<tr th:each="value : ${KospiTopRise}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:red;">
+								<img th:src="@{/image/rise.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+						</tr>
+					</table>
 				 </div>
 			  </div>
 			</div>
 		</div>
-		<div class="col-sm-6 pb-4 px-4">
+		<div class="col-sm-12 pb-4 px-4">
 			<div class="card">
 			  <div class="card-body">
-				  코스닥 상승
-				 <div id="top-rate-kosdaq"></div>
+				<div class="text-center mb-3">코스닥 상승</div>
+				<div id="top-rate-kosdaq">
+					<table>
+						<tr class="text-center">
+							<th class="col-md-2">순위</th>
+							<th class="col-md-5">종목명</th>
+							<th class="col-md-2">현재가</th>
+							<th class="col-md-2">전일비</th>
+							<th class="col-md-2">등락율</th>
+						</tr>
+						<tr th:each="value : ${KosdaqTopRise}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:red;">
+								<img th:src="@{/image/rise.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+						</tr>
+					</table>
+				 </div>
 			  </div>
 			</div>
 		</div>
