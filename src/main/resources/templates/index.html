@@ -24,13 +24,14 @@
 			  <div class="card-body">
 				<div class="text-center mb-3">코스피 상승</div>
 				<div id="top-rate-kospi">
-					<table>
+					<table class="col-md-12">
 						<tr class="text-center">
-							<th class="col-md-2">순위</th>
-							<th class="col-md-5">종목명</th>
-							<th class="col-md-2">현재가</th>
-							<th class="col-md-2">전일비</th>
-							<th class="col-md-2">등락율</th>
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
 						</tr>
 						<tr th:each="value : ${KospiTopRise}" class="text-center">
 							<td th:text="${value.rank}"></td>
@@ -41,6 +42,7 @@
 								<div th:text="${value.netChange}" class="d-inline"></div>
 							</td>
 							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+							<td th:text="${value.volume}"></td>
 						</tr>
 					</table>
 				 </div>
@@ -52,13 +54,14 @@
 			  <div class="card-body">
 				<div class="text-center mb-3">코스닥 상승</div>
 				<div id="top-rate-kosdaq">
-					<table>
+					<table class="col-md-12">
 						<tr class="text-center">
-							<th class="col-md-2">순위</th>
-							<th class="col-md-5">종목명</th>
-							<th class="col-md-2">현재가</th>
-							<th class="col-md-2">전일비</th>
-							<th class="col-md-2">등락율</th>
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
 						</tr>
 						<tr th:each="value : ${KosdaqTopRise}" class="text-center">
 							<td th:text="${value.rank}"></td>
@@ -69,17 +72,70 @@
 								<div th:text="${value.netChange}" class="d-inline"></div>
 							</td>
 							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+							<td th:text="${value.volume}"></td>
 						</tr>
 					</table>
 				 </div>
 			  </div>
 			</div>
 		</div>
-        <div class="col-sm-6 px-4">
+        <div class="col-sm-12 pb-4 px-4">
 			<div class="card">
 			  <div class="card-body">
-				 하락율슌위
-				 <div id="top-drop"></div>
+				<div class="text-center mb-3">코스피 하락</div>
+				<div id="top-rate-kospi">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KospiTopFall}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:blue;">
+								<img th:src="@{/image/fall.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:blue;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				<div class="text-center mb-3">코스닥 하락</div>
+				<div id="top-rate-kosdaq">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KosdaqTopFall}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:blue;">
+								<img th:src="@{/image/fall.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:blue;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
 			  </div>
 			</div>
 		</div>

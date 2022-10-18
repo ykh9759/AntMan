@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockInfo;
-import com.example.AntMan.domain.dto.StockTopRise;
+import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.service.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -28,7 +28,7 @@ public class StockController {
         // List<StockIndex> data = stockService.getStockMarketIndex("코스피");
         // List<StockInfo> data = stockService.getStockPriceInfo("삼성전자");
 
-        List<StockTopRise> data = stockService.getStockTopRise("0", 10);
+        List<StockTopRank> data = stockService.getStockTopRank("0", 10, "rise");
         model.addAttribute("data", data);
 
         return "test";

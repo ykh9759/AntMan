@@ -8,12 +8,16 @@ import org.jsoup.nodes.Document;
 
 public class JsoupCrawling {
 
-  public static Document conJsoupCrawling(String url) throws IOException {
+  public static Document conJsoupCrawling(String url) {
 
-    final String stockList = url;
-    Connection conn = Jsoup.connect(stockList);
+    Connection conn = Jsoup.connect(url);
 
-    Document document = conn.get();
+    Document document = null;
+    try {
+      document = conn.get();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     return document;
   }

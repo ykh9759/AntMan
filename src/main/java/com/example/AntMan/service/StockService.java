@@ -20,11 +20,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockInfo;
-import com.example.AntMan.domain.dto.StockTopRise;
+import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.utils.Api;
 import com.example.AntMan.utils.JsoupCrawling;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -137,16 +136,10 @@ public class StockService {
     }
 
     // 상승 종복 리스트 가져온다. 10위까지
-    public List<StockTopRise> getStockTopRise(String sosok, int Rank) {
+    public List<StockTopRank> getStockTopRank(String sosok, int Rank, String div) {
 
-        String url = "https://finance.naver.com/sise/sise_rise.naver?sosok=" + sosok;
-
-        Document document = null;
-        try {
-            document = JsoupCrawling.conJsoupCrawling(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String url = "https://finance.naver.com/sise/sise_" + div + ".naver?sosok=" + sosok; // 크롤링 url
+        Document document = JsoupCrawling.conJsoupCrawling(url);
 
         JSONArray list = new JSONArray();
 
@@ -163,17 +156,18 @@ public class StockService {
             map.put("price", index[2].toString()); // 현재가
             map.put("netChange", index[3].toString()); // 전일 대비 상승 가격
             map.put("fluctuationRate", index[4].toString()); // 등락율
+            map.put("volume", index[5].toString()); // 등락율
 
             JSONObject obj = new JSONObject(map); // json으로 변환
 
-            list.put(obj);
+            list.put(obj); // 한줄씩 넣는다.
         }
 
         // 지수정보 배열로 매핑
         ObjectMapper mapper = new ObjectMapper();
-        List<StockTopRise> result = new ArrayList<StockTopRise>(); // 리턴값;
+        List<StockTopRank> result = new ArrayList<StockTopRank>(); // 리턴값;
         try {
-            result = Arrays.asList(mapper.readValue(list.toString(), StockTopRise[].class));
+            result = Arrays.asList(mapper.readValue(list.toString(), StockTopRank[].class));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

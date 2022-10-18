@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.AntMan.domain.dto.StockIndex;
-import com.example.AntMan.domain.dto.StockTopRise;
+import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.domain.entity.Member;
 import com.example.AntMan.service.StockService;
 
@@ -41,20 +41,22 @@ public class IndexController {
         } else {
             member = null;
         }
-
         model.addAttribute("member", member);
 
-        List<StockIndex> kospi = stockService.getStockMarketIndex("코스피");
-        List<StockIndex> kosdaq = stockService.getStockMarketIndex("코스닥");
-
+        List<StockIndex> kospi = stockService.getStockMarketIndex("코스피"); // 코스피지수
+        List<StockIndex> kosdaq = stockService.getStockMarketIndex("코스닥"); // 코스닥지수
         model.addAttribute("kospi", kospi);
         model.addAttribute("kosdaq", kosdaq);
 
-        List<StockTopRise> KospiTopRise = stockService.getStockTopRise("0", 10); // 코스피 상승 상위
-        List<StockTopRise> KosdaqTopRise = stockService.getStockTopRise("1", 10); // 코스피 상승 상위
-
+        List<StockTopRank> KospiTopRise = stockService.getStockTopRank("0", 5, "rise"); // 코스피 상승 상위 10위
+        List<StockTopRank> KosdaqTopRise = stockService.getStockTopRank("1", 5, "rise"); // 코스피 상승 상위 10위
         model.addAttribute("KospiTopRise", KospiTopRise);
         model.addAttribute("KosdaqTopRise", KosdaqTopRise);
+
+        List<StockTopRank> KospiTopFall = stockService.getStockTopRank("0", 5, "fall"); // 코스피 상승 상위 10위
+        List<StockTopRank> KosdaqTopFall = stockService.getStockTopRank("1", 5, "fall"); // 코스피 상승 상위 10위
+        model.addAttribute("KospiTopFall", KospiTopFall);
+        model.addAttribute("KosdaqTopFall", KosdaqTopFall);
 
         return "index";
     }
