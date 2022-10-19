@@ -34,12 +34,10 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Member member;
+        Member member = null;
 
         if (session != null) {
             member = (Member) session.getAttribute("LOGIN_MEMBER");
-        } else {
-            member = null;
         }
         model.addAttribute("member", member);
 
@@ -75,7 +73,15 @@ public class IndexController {
 
     // 검색 페이지
     @GetMapping("/stock-search")
-    public String search() {
+    public String search(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        Member member = null;
+
+        if (session != null) {
+            member = (Member) session.getAttribute("LOGIN_MEMBER");
+        }
+        model.addAttribute("member", member);
+
         return "search";
     }
 }
