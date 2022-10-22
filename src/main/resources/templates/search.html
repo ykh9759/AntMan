@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <th:block th:include="~{common/include}"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/search.css}">
 <body>
 <div class="container">
     <th:block th:include="~{common/header}"></th:block>
-    <form th:action="@{/search-stock}" method="post">
-    <div class="row">
-        <div class="col-sm-12 pb-4 px-4">
-            <div class="col-sm-6">
-                <input type="text" class="form-control" name="search" placeholder="Search">
-            </div>
-        </div>
-    </div>
+    <form name="form" th:action="@{/search-stock}" method="post">
+		<div class="row">
+			<div class="search">
+				<input type="text" placeholder="검색어 입력">
+				<img th:src="@{/image/search.png}">
+			  </div>
+		</div>
     </form>
+	
     <div class="row">
         <div class="col-sm-12 pb-4 px-4">
 			<div class="card">
@@ -24,67 +25,72 @@
     </div>
     <th:block th:include="~{common/footer}"></th:block>
 </div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
-    /*<![CDATA[*/
-        var data = /*[[${data}]]*/"";
-    /*]]*/
+	// function press(f){
+	// 	if(f.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
+	// 		alert("test");
+	// 		// form.submit(); //formname에 사용자가 지정한 form의 name입력
+	// 	}
+	// }
+    // /*<![CDATA[*/
+    //     var data = /*[[${data}]]*/"";
+    // /*]]*/
 
-	var dataArray = new Array();
-	var dateArray = new Array();
-	for(var i = 0; i <data.length+1; i++) {
+	// var dataArray = new Array();
+	// var dateArray = new Array();
+	// for(var i = 0; i <data.length+1; i++) {
 
-		if(i == 0) {
-			dataArray[0] = "KOSPI";
-			dateArray[0] = "x";
+	// 	if(i == 0) {
+	// 		dataArray[0] = "KOSPI";
+	// 		dateArray[0] = "x";
 
-		} else {
-			dataiArray[i] = [parseInt(data[i-1].mkp), parseInt(data[i-1].hipr), parseInt(data[i-1].lopr), parseInt(data[i-1].clpr)];
-			dateArray[i] = (data[i-1].basDt).slice(0,4) + "-"+ (data[i-1].basDt).slice(4,6) + "-" + (data[i-1].basDt).slice(6,8);
-		}
-	}
+	// 	} else {
+	// 		dataiArray[i] = [parseInt(data[i-1].mkp), parseInt(data[i-1].hipr), parseInt(data[i-1].lopr), parseInt(data[i-1].clpr)];
+	// 		dateArray[i] = (data[i-1].basDt).slice(0,4) + "-"+ (data[i-1].basDt).slice(4,6) + "-" + (data[i-1].basDt).slice(6,8);
+	// 	}
+	// }
 
-    //columns [시가, 최고, 최저, 종가]
-	var kospi = bb.generate({
-		title: {
-			text: "코스피 차트"
-		},
-		data: {
-			x: dateArray[0],
-			columns: [
-                dataArray,
-				dateArray
-			],
-			type: "candlestick", // for ESM specify as: candlestick()
-			colors: {
-				KOSPI: "red"
-			},
-		},
-		candlestick: {
-			color: {
-				down: "blue"
-			},
-			width: {
-				ratio: 0.5
-			}
-		},
-		axis: {
-			x: {
-				type: "timeseries",
-				tick: {
-					count: 8,
-					format: "%m-%d"
-				}
-			},
-			y: {
-				show: false
-			},
-			y2: {
-				show: true
-			}
-		},
-		bindto: "#kospi"
-	});
+    // //columns [시가, 최고, 최저, 종가]
+	// var kospi = bb.generate({
+	// 	title: {
+	// 		text: "코스피 차트"
+	// 	},
+	// 	data: {
+	// 		x: dateArray[0],
+	// 		columns: [
+    //             dataArray,
+	// 			dateArray
+	// 		],
+	// 		type: "candlestick", // for ESM specify as: candlestick()
+	// 		colors: {
+	// 			KOSPI: "red"
+	// 		},
+	// 	},
+	// 	candlestick: {
+	// 		color: {
+	// 			down: "blue"
+	// 		},
+	// 		width: {
+	// 			ratio: 0.5
+	// 		}
+	// 	},
+	// 	axis: {
+	// 		x: {
+	// 			type: "timeseries",
+	// 			tick: {
+	// 				count: 8,
+	// 				format: "%m-%d"
+	// 			}
+	// 		},
+	// 		y: {
+	// 			show: false
+	// 		},
+	// 		y2: {
+	// 			show: true
+	// 		}
+	// 	},
+	// 	bindto: "#kospi"
+	// });
 </script>
 </body>
 </html>
