@@ -46,3 +46,11 @@ input {
   text-align: center;
   color: #bbb;
 }
+
+img {
+  position : absolute;
+  width: 17px;
+  top: 20px;
+  right: 20px;
+  margin: 0;
+}
