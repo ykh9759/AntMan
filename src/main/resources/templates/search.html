@@ -8,9 +8,11 @@
     <form name="form" th:action="@{/search-stock}" method="post">
 		<div class="row">
 			<div class="search">
-				<input type="text" placeholder="검색어 입력">
-				<img th:src="@{/image/search.png}">
-			  </div>
+				<div class="searchWrapper">
+					<i class="fa fa-search"></i>
+					<input type="text" />
+				</div>
+			</div>
 		</div>
     </form>
 	
@@ -26,6 +28,29 @@
     <th:block th:include="~{common/footer}"></th:block>
 </div>
 <script th:inline="javascript">
+
+$.ajax({
+		timeout: 10000, // 시간 제한
+		type:"POST", // 전송 방식 GET , POST , PUT , DELETE
+		url:"/stock/search", // 전송할 경로
+		data: {"key1":value1 , "key2":value2} , // 전송할 키와 값
+		dataType:"JSON", // 반환되는 값의 형식 json , text 를 주로 사용
+		beforeSend : function () {
+		// 전송 전 작업 , 화면을 흐르게 하기..
+		},
+		success : function(json) {
+		// 작업이 성공했을 경우 json 형태로 받는다.
+            if ( typeof(json) == "undefined" ) {return;} // 개체 확인
+			
+		},
+		complete : function() {
+		// 성공여부와 상관없이 ajax 완료후 작업 
+		},
+		error : function(request, status, errorr) {
+		// 에러가 났을 경우의 작업
+		}
+	}); // end ajax
+
 	// function press(f){
 	// 	if(f.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
 	// 		alert("test");
