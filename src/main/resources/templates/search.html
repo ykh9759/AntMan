@@ -5,17 +5,14 @@
 <body>
 <div class="container">
     <th:block th:include="~{common/header}"></th:block>
-    <form name="form" th:action="@{/search-stock}" method="post">
-		<div class="row">
-			<div class="search">
-				<div class="searchWrapper">
-					<i class="fa fa-search"></i>
-					<input type="text" />
-				</div>
+	<div class="row">
+		<div class="search">
+			<div class="searchWrapper">
+				<button onclick="sendit();" ><i class="fa fa-search"></i></button>
+				<input type="text" id="search" onkeyup="enterkey()" />
 			</div>
 		</div>
-    </form>
-	
+	</div>
     <div class="row">
         <div class="col-sm-12 pb-4 px-4">
 			<div class="card">
@@ -29,18 +26,89 @@
 </div>
 <script th:inline="javascript">
 
-$.ajax({
-		timeout: 10000, // 시간 제한
-		type:"POST", // 전송 방식 GET , POST , PUT , DELETE
+//엔터키로 검색
+function enterkey() {
+	if (window.event.keyCode == 13) {
+		sendit();
+	}
+}
+
+function sendit() {
+
+	var search = document.getElementById("search").value;
+
+	if(!search) {
+		alert("종목명을 입력해 주세요.");
+		return;
+	}
+	
+	$.ajax({
+		type:"GET", // 전송 방식 GET , POST , PUT , DELETE
 		url:"/stock/search", // 전송할 경로
-		data: {"key1":value1 , "key2":value2} , // 전송할 키와 값
+		data: {"search":search} , // 전송할 키와 값
 		dataType:"JSON", // 반환되는 값의 형식 json , text 를 주로 사용
 		beforeSend : function () {
 		// 전송 전 작업 , 화면을 흐르게 하기..
 		},
-		success : function(json) {
-		// 작업이 성공했을 경우 json 형태로 받는다.
-            if ( typeof(json) == "undefined" ) {return;} // 개체 확인
+		success : function(data) {
+
+            if ( typeof(data) == "undefined" ) return;
+
+			var dataArray = new Array();
+			var dateArray = new Array();
+			for(var i = 0; i <data.length+1; i++) {
+
+				if(i == 0) {
+					dataArray[0] = "KOSPI";
+					dateArray[0] = "x";
+
+				} else {
+					dataArray[i] = [parseInt(data[i-1].mkp), parseInt(data[i-1].hipr), parseInt(data[i-1].lopr), parseInt(data[i-1].clpr)];
+					dateArray[i] = (data[i-1].basDt).slice(0,4) + "-"+ (data[i-1].basDt).slice(4,6) + "-" + (data[i-1].basDt).slice(6,8);
+				}
+			}
+
+			//columns [시가, 최고, 최저, 종가]
+			var kospi = bb.generate({
+				title: {
+					text: search + " 차트"
+				},
+				data: {
+					x: dateArray[0],
+					columns: [
+						dataArray,
+						dateArray
+					],
+					type: "candlestick", // for ESM specify as: candlestick()
+					colors: {
+						KOSPI: "red"
+					},
+				},
+				candlestick: {
+					color: {
+						down: "blue"
+					},
+					width: {
+						ratio: 0.5
+					}
+				},
+				axis: {
+					x: {
+						type: "timeseries",
+						tick: {
+							count: 8,
+							format: "%m-%d"
+						}
+					},
+					y: {
+						show: false
+					},
+					y2: {
+						show: true
+					}
+				},
+				bindto: "#chart"
+			});
 			
 		},
 		complete : function() {
@@ -50,72 +118,7 @@ $.ajax({
 		// 에러가 났을 경우의 작업
 		}
 	}); // end ajax
-
-	// function press(f){
-	// 	if(f.keyCode == 13){ //javascript에서는 13이 enter키를 의미함
-	// 		alert("test");
-	// 		// form.submit(); //formname에 사용자가 지정한 form의 name입력
-	// 	}
-	// }
-    // /*<![CDATA[*/
-    //     var data = /*[[${data}]]*/"";
-    // /*]]*/
-
-	// var dataArray = new Array();
-	// var dateArray = new Array();
-	// for(var i = 0; i <data.length+1; i++) {
-
-	// 	if(i == 0) {
-	// 		dataArray[0] = "KOSPI";
-	// 		dateArray[0] = "x";
-
-	// 	} else {
-	// 		dataiArray[i] = [parseInt(data[i-1].mkp), parseInt(data[i-1].hipr), parseInt(data[i-1].lopr), parseInt(data[i-1].clpr)];
-	// 		dateArray[i] = (data[i-1].basDt).slice(0,4) + "-"+ (data[i-1].basDt).slice(4,6) + "-" + (data[i-1].basDt).slice(6,8);
-	// 	}
-	// }
-
-    // //columns [시가, 최고, 최저, 종가]
-	// var kospi = bb.generate({
-	// 	title: {
-	// 		text: "코스피 차트"
-	// 	},
-	// 	data: {
-	// 		x: dateArray[0],
-	// 		columns: [
-    //             dataArray,
-	// 			dateArray
-	// 		],
-	// 		type: "candlestick", // for ESM specify as: candlestick()
-	// 		colors: {
-	// 			KOSPI: "red"
-	// 		},
-	// 	},
-	// 	candlestick: {
-	// 		color: {
-	// 			down: "blue"
-	// 		},
-	// 		width: {
-	// 			ratio: 0.5
-	// 		}
-	// 	},
-	// 	axis: {
-	// 		x: {
-	// 			type: "timeseries",
-	// 			tick: {
-	// 				count: 8,
-	// 				format: "%m-%d"
-	// 			}
-	// 		},
-	// 		y: {
-	// 			show: false
-	// 		},
-	// 		y2: {
-	// 			show: true
-	// 		}
-	// 	},
-	// 	bindto: "#kospi"
-	// });
+}
 </script>
 </body>
 </html>

@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.AntMan.domain.dto.StockTopRank;
+import com.example.AntMan.domain.dto.StockInfo;
 import com.example.AntMan.service.StockService;
 
 @Controller
@@ -16,16 +19,16 @@ public class StockController {
     @Autowired
     StockService stockService;
 
-    @GetMapping("/getStock")
-    public String getStock(Model model) {
+    @GetMapping("/stock/search")
+    @ResponseBody
+    public List<StockInfo> getStock(@RequestParam String search) {
+        System.out.println(search);
 
-        // List<StockIndex> data = stockService.getStockMarketIndex("코스피");
-        // List<StockInfo> data = stockService.getStockPriceInfo("삼성전자");
+        List<StockInfo> data = stockService.getStockPriceInfo(search);
 
-        List<StockTopRank> data = stockService.getStockTopRank("0", 10, "rise");
-        model.addAttribute("data", data);
+        System.out.println(data);
 
-        return "test";
+        return data;
     }
 
 }
