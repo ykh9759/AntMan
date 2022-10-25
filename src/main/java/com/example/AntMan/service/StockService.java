@@ -86,7 +86,7 @@ public class StockService {
 
         // 한달전 날짜
         Calendar mon = Calendar.getInstance();
-        mon.add(Calendar.MONTH, -2);
+        mon.add(Calendar.MONTH, -3);
         String startDate = new java.text.SimpleDateFormat("yyyyMMdd").format(mon.getTime());
         System.out.println("시작날짜: " + startDate);
 

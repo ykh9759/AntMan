@@ -26,12 +26,10 @@
 	flex: 1;
 }
  
-.buttonWrapper button {
-	margin-bottom: 15px;
-  padding: 10px;
+button {
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  background-color: transparent;
 }
 
 .fa-search {
