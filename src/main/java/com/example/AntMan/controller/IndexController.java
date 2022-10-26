@@ -70,18 +70,4 @@ public class IndexController {
     public String signUp() {
         return "member/signUp";
     }
-
-    // 검색 페이지
-    @GetMapping("/stock")
-    public String search(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        Member member = null;
-
-        if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
-        }
-        model.addAttribute("member", member);
-
-        return "search";
-    }
 }
