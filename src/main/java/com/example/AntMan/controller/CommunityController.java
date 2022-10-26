@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
+import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.Edit;
 import com.example.AntMan.domain.dto.EditList;
@@ -46,6 +49,14 @@ public class CommunityController {
 //        model.addAttribute("boardList", boardList);
 //		return "community/board";
 //    }
+	
+	@RequestMapping(value = "/community/detail/{id}")
+	public String detail(Model model, @PathVariable("id") Integer id) {
+		BoardDetail boardDetail = this.boardService.getBoardDetail(id);
+		model.addAttribute("boardDetail", boardDetail);
+		
+		return "community/community_detail";
+	}
 	
 	@GetMapping("/community")
     public String community(Model model, @RequestParam String id) {

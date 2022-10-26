@@ -56,7 +56,7 @@
 					<tr class="text-center" th:each="editlist : ${editList}" >
 						<td th:text="${editlist.no}">번호</td>
 						<td class="text-start">
-							<a href="javascript:community_sub('1','detail');" class="text-decoration-none" th:text="${editlist.title}" ></a>
+							<a th:href="@{|/community/detail/${editlist.no}|}" class="text-decoration-none" th:text="${editlist.title}" ></a>
 						</td>
 						<td th:text="${editlist.userNo}">
 							<span>글쓴이</span>

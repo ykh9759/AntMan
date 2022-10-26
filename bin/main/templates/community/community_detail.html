@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="~{include/header}"></th:block>
 <body>
@@ -16,7 +15,8 @@
 		        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 		          <li><a href="/" class="nav-link px-6 link-secondary">홈</a></li>
 		          <li><a href="#" class="nav-link px-6 link-dark">검색</a></li>
-		          <li><a href="community?id=1" class="nav-link px-6 link-dark">커뮤니티</a></li>
+		          
+		          <li><a href="../../community?id=1" class="nav-link px-6 link-dark">커뮤니티</a></li>
 		        </ul>
 		
 				<div class="col-md-3 text-end">
@@ -29,49 +29,50 @@
 		</div>
     </div>
     <div class="row">
-    	<!-- iframe-->    
-		<div class="col-md-2">
-			<div class="list-group" id="list-tab" role="tablist">
-						<a class="list-group-item list-group-item-action" data-bs-toggle="list" 
-						th:each="boardList : ${boardList}" th:utext="${boardList.name}" 
-						th:classappend="${boardList.no} == ${boardName.no} ? active"
-						th:href="@{/community(id = ${boardList.no})}">
-						</a>
-			</div>
-		</div>
-		<div class="col-md-10" id="community_sub">
-			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-							<h1 class="h2" th:text="${boardName.name}"></h1>
-			</div>
-			<table class="table">
-				<thead class="table-dark">
-					<tr class="text-center">
-						<th>번호</th>
-						<th style="width:50%">제목</th>
-						<th>글쓴이</th>
-						<th>작성일시</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="text-center" th:each="editlist : ${editList}" >
-						<td th:text="${editlist.no}">번호</td>
-						<td class="text-start">
-							<a th:href="@{|/community/detail/${editlist.no}|}" class="text-decoration-none" th:text="${editlist.title}" ></a>
-						</td>
-						<td th:text="${editlist.userNo}">
-							<span>글쓴이</span>
-						</td>
-						<td th:text="${#dates.format(editlist.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성일시</td>
-					</tr>
-				</tbody>
-			</table>			
-		</div>
-        <!-- /iframe-->
-    </div>
-    <div class="row">
-    	<div class="col-sm-12 text-end">
-					<a href="board-edit" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
-    	</div>
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 ">
+	        	<h1 class="h2" th:text="${boardDetail.title}">게시판 제목</h1>
+	      	</div>
+
+		    <div class="row d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+		      <div class="col-md-9">
+		          <font size="3px" th:text="${boardDetail.userNo}"><b>작성자</b></font>
+		          <font size="2px" th:text="${#dates.format(boardDetail.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성시간</font>
+		      </div> 
+		      <div align="right" class="col-md-3" th:text="'조회 : '+${boardDetail.viewCount}">
+		           조회 77
+		      </div>
+		    </div>
+
+
+		    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-4 mb-3 border-bottom"
+		    	th:utext="${boardDetail.contents}">
+		        
+		    </div>
+
+      
+		    <div class="card-body">
+		        <!--타임리프로 div 반복-->
+		        <div class="card-text p-3 border-bottom">
+		          <div><font size="3px"><b>ADMIN</b></font></div>
+		          <div><font size="3px">하이루</font></div>
+		          <div><font size="2px">2022.07.05. 22:16</font></div>
+		        </div>
+		        <div class="card-text p-3 border-bottom">
+		          <div><font size="3px"><b>Park</b></font></div>
+		          <div><font size="3px">ㅋㅋㅋㅋㅋㅋㅋ</font></div>
+		          <div><font size="2px">2022.07.05. 22:36</font></div>
+		        </div>
+		        <!--타임리프로 div 반복-->
+		    </div>
+      
+		    <form method="post" class="my-3">
+		        <div class="col-md-12">
+		          <textarea style="resize: none;" class="form-control" rows="3" id="comment" name="comment" placeholder="댓글"></textarea>
+		        </div>
+		        <div class="d-flex justify-content-end">
+		            <button class="btn btn-outline-*" type="submit">등록</button>
+		        </div>
+		    </form> 
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -91,7 +92,6 @@
         </div>
     </div>
 </div>
-<!--script src="bootstrap.bundle.min.js"--><!--/script-->
 <script th:src="@{/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

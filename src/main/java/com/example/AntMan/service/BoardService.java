@@ -2,6 +2,7 @@ package com.example.AntMan.service;
 
 import com.example.AntMan.repository.BoardDivRepository;
 import com.example.AntMan.repository.BoardRepository;
+import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.EditList;
 import com.example.AntMan.domain.entity.Board;
@@ -36,6 +37,31 @@ public class BoardService {
         }
         return validatorResult;
     }
+	
+	// 게시판 내용
+		public BoardDetail getBoardDetail(Integer id) {  
+	        Optional<Board> board = this.boardRepository.findById(id);
+	        
+	        BoardDetail boardDetail = BoardDetail.builder()
+	        		.boardDiv(board.get().getBoardDiv())
+	        		.userNo(board.get().getUserNo())
+	        		.title(board.get().getTitle())
+	        		.contents(board.get().getContents())
+	        		.created_time(board.get().getCreated_time())
+	        		.viewCount(board.get().getViewCount())
+	        		.build();
+	        
+	        Optional<BoardDetail> BoardDetailDto = Optional.ofNullable(boardDetail);
+	        
+	        return BoardDetailDto.get();
+	        /*
+	        if (board.isPresent()) {
+	            return board.get();
+	        } else {
+	            throw new DataNotFoundException("boardDetail not found");
+	        }
+	        */
+	    }
 	
 	// 게시판 구분별 리스트
 	public List<EditList> getList(Integer id) {
