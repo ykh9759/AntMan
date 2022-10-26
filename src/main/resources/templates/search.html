@@ -9,18 +9,12 @@
 		<div class="search">
 			<div class="searchWrapper">
 				<button onclick="sendit();" ><i class="fa fa-search"></i></button>
-				<input type="text" id="search" onkeyup="enterkey()" />
+				<input type="text" id="search" onkeyup="enterkey()" value="삼성전자"/>
 			</div>
 		</div>
 	</div>
     <div class="row">
-        <div class="col-sm-12 pb-4 px-4">
-			<div class="card">
-			  <div class="card-body">
-				 <div id="chart"></div>
-			  </div>
-			</div>	
-		</div>
+        <div id="element" class="col-sm-12 pb-4 px-4"></div>
     </div>
     <th:block th:include="~{common/footer}"></th:block>
 </div>
@@ -53,6 +47,18 @@ function sendit() {
 		success : function(data) {
 
             if ( typeof(data) == "undefined" ) return;
+
+			var div1 = document.createElement("div");
+			div1.className = "card";
+
+			var div2 = document.createElement("div");
+			div2.className = "card-body";
+
+			var div3 = document.createElement("div");
+			div3.id = "chart";
+
+			var element = document.getElementById("element");
+			element.appendChild(div1).appendChild(div2).appendChild(div3);
 
 			var dataArray = new Array();
 			var dateArray = new Array();
@@ -89,7 +95,7 @@ function sendit() {
 						down: "blue"
 					},
 					width: {
-						ratio: 0.5
+						ratio: 0.4
 					}
 				},
 				axis: {

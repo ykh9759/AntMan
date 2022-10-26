@@ -10,7 +10,7 @@
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="/" class="nav-link px-6 link-secondary">홈</a></li>
-              <li><a href="javascript:sendit('/stock');" class="nav-link px-6 link-dark">검색</a></li>
+              <li><a href="/stock" class="nav-link px-6 link-dark">검색</a></li>
               <li><a href="#" class="nav-link px-6 link-dark">커뮤니티</a></li>
             </ul>
     
@@ -39,17 +39,3 @@
       </header>
     </div>
 </div>
-<script th:inline="javascript">
-  function sendit(url) {
-    /*<![CDATA[*/
-    var member = /*[[${member}]]*/"";
-    /*]]*/
-
-
-    if(member != null){
-      location.href = url;
-    } else {
-      alert("로그인 후 이용이 가능합니다.");
-    }
-  }
-</script>

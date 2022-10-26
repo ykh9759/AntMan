@@ -15,26 +15,34 @@ public class Alert {
         response.setCharacterEncoding("euc-kr");
     }
 
-    public static void alert(HttpServletResponse response, String alertText) throws IOException {
+    public static void alert(HttpServletResponse response, String alertText) {
         init(response);
-        PrintWriter out = response.getWriter();
-        out.println("<script>alert('" + alertText + "');</script> ");
-        out.flush();
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<script>alert('" + alertText + "');</script> ");
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void alertAndMovePage(HttpServletResponse response, String alertText, String nextPage)
-            throws IOException {
+    public static void alertAndMovePage(HttpServletResponse response, String alertText, String nextPage) {
         init(response);
-        PrintWriter out = response.getWriter();
-        out.println("<script>alert('" + alertText + "'); location.href='" + nextPage + "';</script> ");
-        out.flush();
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<script>alert('" + alertText + "'); location.href='" + nextPage + "';</script> ");
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void alertAndBackPage(HttpServletResponse response, String alertText) throws IOException {
+    public static void alertAndBackPage(HttpServletResponse response, String alertText) {
         init(response);
-        PrintWriter out = response.getWriter();
-        out.println("<script>alert('" + alertText + "'); history.back();</script>");
-        out.flush();
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<script>alert('" + alertText + "'); history.back();</script>");
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
