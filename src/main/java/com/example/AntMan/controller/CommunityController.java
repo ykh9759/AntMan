@@ -20,6 +20,7 @@ import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.Edit;
 import com.example.AntMan.domain.dto.EditList;
+import com.example.AntMan.domain.dto.ReplyList;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
 import com.example.AntMan.service.BoardService;
@@ -52,8 +53,12 @@ public class CommunityController {
 	
 	@RequestMapping(value = "/community/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
+		// 게시물 디테일
 		BoardDetail boardDetail = this.boardService.getBoardDetail(id);
 		model.addAttribute("boardDetail", boardDetail);
+		// 게시물 아이디의 댓글
+		List<ReplyList> replyList = this.boardService.getReplyList(id);
+		model.addAttribute("replyList", replyList);	
 		
 		return "community/community_detail";
 	}

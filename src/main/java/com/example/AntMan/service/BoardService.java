@@ -2,11 +2,14 @@ package com.example.AntMan.service;
 
 import com.example.AntMan.repository.BoardDivRepository;
 import com.example.AntMan.repository.BoardRepository;
+import com.example.AntMan.repository.ReplyRepository;
 import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.EditList;
+import com.example.AntMan.domain.dto.ReplyList;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
+import com.example.AntMan.domain.entity.Reply;
 
 import javax.transaction.Transactional;
 
@@ -29,6 +32,9 @@ public class BoardService {
 	@Autowired
     private BoardDivRepository boardDivRepository;
 	
+	@Autowired
+    private ReplyRepository replyRepository;
+	
 	public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new LinkedHashMap<>(); /* 유효성 검사에 실패한 필드 목록을 받음 */
         for (FieldError error : errors.getFieldErrors()) {
@@ -39,10 +45,10 @@ public class BoardService {
     }
 	
 	// 게시판 내용
-		public BoardDetail getBoardDetail(Integer id) {  
-	        Optional<Board> board = this.boardRepository.findById(id);
+	public BoardDetail getBoardDetail(Integer id) {  
+	    Optional<Board> board = this.boardRepository.findById(id);
 	        
-	        BoardDetail boardDetail = BoardDetail.builder()
+	    BoardDetail boardDetail = BoardDetail.builder()
 	        		.boardDiv(board.get().getBoardDiv())
 	        		.userNo(board.get().getUserNo())
 	        		.title(board.get().getTitle())
@@ -51,17 +57,36 @@ public class BoardService {
 	        		.viewCount(board.get().getViewCount())
 	        		.build();
 	        
-	        Optional<BoardDetail> BoardDetailDto = Optional.ofNullable(boardDetail);
+	    Optional<BoardDetail> BoardDetailDto = Optional.ofNullable(boardDetail);
 	        
-	        return BoardDetailDto.get();
-	        /*
+	    return BoardDetailDto.get();
+	    /*
 	        if (board.isPresent()) {
 	            return board.get();
 	        } else {
 	            throw new DataNotFoundException("boardDetail not found");
 	        }
-	        */
-	    }
+	    */
+	}
+	
+	// 게시물의 댓글 리스트
+	public List<ReplyList> getReplyList(Integer id) {  	
+		List<Reply> reply = replyRepository.findByboardNo(id);
+		List<ReplyList> replyDtoList = new ArrayList<>();
+		
+		for (Reply ReplyEntity : reply) {
+			ReplyList replyList = ReplyList.builder()
+					.UserNo(ReplyEntity.getUserNo())
+					.comment(ReplyEntity.getComment())
+					.created_time(ReplyEntity.getCreated_time())
+					.updated_time(ReplyEntity.getUpdated_time())
+					.build();				
+				
+			replyDtoList.add(replyList);
+		}
+			
+		return replyDtoList;
+	}
 	
 	// 게시판 구분별 리스트
 	public List<EditList> getList(Integer id) {
