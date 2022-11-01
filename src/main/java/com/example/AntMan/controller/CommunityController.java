@@ -21,8 +21,10 @@ import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.Edit;
 import com.example.AntMan.domain.dto.EditList;
 import com.example.AntMan.domain.dto.ReplyList;
+import com.example.AntMan.domain.dto.ReplySave;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
+import com.example.AntMan.domain.entity.Reply;
 import com.example.AntMan.service.BoardService;
 import com.example.AntMan.utils.Utils;
 
@@ -34,6 +36,8 @@ public class CommunityController {
     BoardService boardService;
 
 	Board board;
+	
+	Reply reply;
 	
 	/*
 	@RequestMapping("/community")
@@ -58,7 +62,9 @@ public class CommunityController {
 		model.addAttribute("boardDetail", boardDetail);
 		// 게시물 아이디의 댓글
 		List<ReplyList> replyList = this.boardService.getReplyList(id);
-		model.addAttribute("replyList", replyList);	
+		model.addAttribute("replyList", replyList);		
+		// 게시물 아이디
+		model.addAttribute("boardNo", id);
 		
 		return "community/community_detail";
 	}
@@ -80,7 +86,7 @@ public class CommunityController {
     }	
 	
 	@PostMapping("/board-edit/save")
-	public void questionCreate(@Valid Edit edit, Errors errors, HttpServletResponse response) throws Exception {
+	public void EditCreate(@Valid Edit edit, Errors errors, HttpServletResponse response) throws Exception {
         
 		if (errors.hasErrors()) {
             Map<String, String> validatorResult = boardService.validateHandling(errors);
@@ -96,6 +102,30 @@ public class CommunityController {
         boardService.boardSave(board);
 
         Utils.alertAndMovePage(response, "등록 되었습니다.", "/community?id=1");
+		
+		return;
+    }
+	
+	// 댓글 SAVE
+	@PostMapping("/community/reply/save/{id}")
+	public void replyCreate(@Valid ReplySave replySave, @PathVariable("id") Integer id, Errors errors, HttpServletResponse response) throws Exception {
+        
+		if (errors.hasErrors()) {
+            Map<String, String> validatorResult = boardService.validateHandling(errors);
+
+            for (String key : validatorResult.keySet()) {
+                Utils.alertAndBackPage(response, validatorResult.get(key));
+                return;
+            }
+        }
+		
+		replySave.setBoardNo(id);
+		
+		reply = replySave.toEntity();
+
+        boardService.replySave(reply);
+
+        Utils.alertAndMovePage(response, "등록 되었습니다.", "/community/detail/"+id.toString());
 		
 		return;
     }

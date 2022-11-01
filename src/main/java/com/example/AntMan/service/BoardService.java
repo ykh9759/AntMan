@@ -141,4 +141,11 @@ public class BoardService {
         return board;
     }
 	
+	// 댓글저장
+	@Transactional
+	public Reply replySave(Reply reply) {
+		replyRepository.save(reply);
+	    return reply;
+	}
+	
 }
