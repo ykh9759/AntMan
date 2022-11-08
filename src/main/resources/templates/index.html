@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<th:block th:include="~{common/include}"></th:block>
+<body>
+<div class="container">
+    <th:block th:include="~{common/header}"></th:block>
+    <div class="row">
+        <div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				 <div id="kospi"></div>
+			  </div>
+			</div>	
+		</div>
+        <div class="col-sm-12 pb-4 px-4">
+        	<div class="card">
+			  <div class="card-body">
+				 <div id="kosdaq"></div>
+			  </div>
+			</div>
+        </div>
+        <div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				<div class="text-center mb-3">코스피 상승</div>
+				<div id="top-rate-kospi">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KospiTopRise}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:red;">
+								<img th:src="@{/image/rise.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				<div class="text-center mb-3">코스닥 상승</div>
+				<div id="top-rate-kosdaq">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KosdaqTopRise}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:red;">
+								<img th:src="@{/image/rise.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:red;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
+			  </div>
+			</div>
+		</div>
+        <div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				<div class="text-center mb-3">코스피 하락</div>
+				<div id="top-rate-kospi">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KospiTopFall}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:blue;">
+								<img th:src="@{/image/fall.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:blue;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
+			  </div>
+			</div>
+		</div>
+		<div class="col-sm-12 pb-4 px-4">
+			<div class="card">
+			  <div class="card-body">
+				<div class="text-center mb-3">코스닥 하락</div>
+				<div id="top-rate-kosdaq">
+					<table class="col-md-12">
+						<tr class="text-center">
+							<th class="col-md-1">순위</th>
+							<th class="col-md-4">종목명</th>
+							<th class="col-md-1">현재가</th>
+							<th class="col-md-1">전일비</th>
+							<th class="col-md-1">등락율</th>
+							<th class="col-md-1">거래량</th>
+						</tr>
+						<tr th:each="value : ${KosdaqTopFall}" class="text-center">
+							<td th:text="${value.rank}"></td>
+							<td th:text="${value.stockName}"></td>
+							<td th:text="${value.price}"></td>
+							<td style="color:blue;">
+								<img th:src="@{/image/fall.gif}">
+								<div th:text="${value.netChange}" class="d-inline"></div>
+							</td>
+							<td th:text="${value.fluctuationRate}" style="color:blue;"></td>
+							<td th:text="${value.volume}"></td>
+						</tr>
+					</table>
+				 </div>
+			  </div>
+			</div>
+		</div>
+    </div>
+    <th:block th:include="~{common/footer}"></th:block>
+</div>
+<script th:inline="javascript">
+
+	/*<![CDATA[*/
+	var kospiData = /*[[${kospi}]]*/"";
+	var kosdaqData = /*[[${kosdaq}]]*/"";
+    /*]]*/
+
+	var kospiArray = new Array();
+	var kospiDateArray = new Array();
+	for(var i = 0; i <kospiData.length+1; i++) {
+
+		if(i == 0) {
+			kospiArray[0] = "KOSPI";
+			kospiDateArray[0] = "x";
+
+		} else {
+			kospiArray[i] = [parseInt(kospiData[i-1].mkp), parseInt(kospiData[i-1].hipr), parseInt(kospiData[i-1].lopr), parseInt(kospiData[i-1].clpr)];
+			kospiDateArray[i] = (kospiData[i-1].basDt).slice(0,4) + "-"+ (kospiData[i-1].basDt).slice(4,6) + "-" + (kospiData[i-1].basDt).slice(6,8);
+		}
+	}
+
+
+	var kosdaqArray = new Array();
+	var kosdaqDateArray = new Array();
+	for(var i = 0; i <kosdaqData.length+1; i++) {
+
+		if(i == 0) {
+			kosdaqArray[0] = "KOSDAQ";
+			kosdaqDateArray[0] = "x";
+
+		} else {
+			kosdaqArray[i] = [parseInt(kosdaqData[i-1].mkp), parseInt(kosdaqData[i-1].hipr), parseInt(kosdaqData[i-1].lopr), parseInt(kosdaqData[i-1].clpr)];
+			kosdaqDateArray[i] = (kosdaqData[i-1].basDt).slice(0,4) + "-"+ (kosdaqData[i-1].basDt).slice(4,6) + "-" + (kosdaqData[i-1].basDt).slice(6,8);
+		}
+	}
+
+	//columns [시가, 최고, 최저, 종가]
+	var kospi = bb.generate({
+		title: {
+			text: "코스피 차트"
+		},
+		data: {
+			x: kospiDateArray[0],
+			columns: [
+				kospiArray,
+				kospiDateArray
+			],
+			type: "candlestick", // for ESM specify as: candlestick()
+			colors: {
+				KOSPI: "red"
+			},
+		},
+		candlestick: {
+			color: {
+				down: "blue"
+			},
+			width: {
+				ratio: 0.4
+			}
+		},
+		axis: {
+			x: {
+				type: "timeseries",
+				tick: {
+					count: 8,
+					format: "%m-%d"
+				}
+			},
+			y: {
+				show: false
+			},
+			y2: {
+				show: true
+			}
+		},
+		bindto: "#kospi"
+	});
+
+	var kosdaq = bb.generate({
+		title: {
+			text: "코스닥 차트"
+		},
+		data: {
+			x: kosdaqDateArray[0],
+			columns: [
+				kosdaqArray,
+				kosdaqDateArray
+			],
+			type: "candlestick", // for ESM specify as: candlestick()
+			colors: {
+				KOSDAQ: "red"
+			},
+		},
+		candlestick: {
+			color: {
+				down: "blue"
+			},
+			width: {
+				ratio: 0.4
+			}
+		},
+		axis: {
+			x: {
+				type: "timeseries",
+				tick: {
+					count: 8,
+					format: "%m-%d"
+				}
+			},
+			y: {
+				show: false
+			},
+			y2: {
+				show: true
+			}
+			
+		},
+		bindto: "#kosdaq"
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+.search {
+	display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+ 
+.searchWrapper {
+	display: flex;
+  width: 300px;
+  margin: 15px;
+  padding: 5px;
+  border: 1px solid #e2e2e2;
+  border-radius: 15px;
+}
+ 
+.searchWrapper input {
+	flex: 7;
+  padding-left: 10px;
+  border: none;
+  outline: none;
+}
+ 
+.fa {
+	flex: 1;
+}
+ 
+button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.fa-search {
+  margin-top: 5px;
+}

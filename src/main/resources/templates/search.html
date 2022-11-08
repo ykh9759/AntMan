@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<th:block th:include="~{common/include}"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/search.css}">
+<body>
+<div class="container">
+    <th:block th:include="~{common/header}"></th:block>
+	<div class="row">
+		<div class="search">
+			<div class="searchWrapper">
+				<button onclick="sendit();" ><i class="fa fa-search"></i></button>
+				<input type="text" id="search" onkeyup="enterkey()" placeholder="Search..."/>
+			</div>
+		</div>
+	</div>
+    <div class="row">
+        <div id="chart-element" class="col-sm-12 pb-4 px-4 d-none">
+			<div class="card">
+				<div class="card-body">
+					<div id = "chart"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+	<div class="row">
+        <div id="info-element" class="col-sm-12 pb-4 px-4 d-none">
+			<div class="card">
+				<div class="card-body">
+					<div id = "info">
+						<table class="col-md-12">
+							<tr>
+								<td class="col-md-1">기준일 : <p id="basDt" class="d-inline"></p></td>
+							</tr>
+							<tr>
+								<td class="col-md-1">종목명 : <p id="itmsNm" class="d-inline"></p></td>
+							</tr>
+							<tr>
+								<td class="col-md-1">시가총액 : <p id="mrktTotAmt" class="d-inline"></p></td>
+							</tr>
+							<tr>
+								<td class="col-md-1">현재가 : <p id="clpr" class="d-inline"></p></td>
+							</tr>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    <th:block th:include="~{common/footer}"></th:block>
+</div>
+<script th:inline="javascript">
+
+//엔터키로 검색
+function enterkey() {
+	if (window.event.keyCode == 13) {
+		sendit();
+	}
+}
+
+function sendit() {
+
+	var search = document.getElementById("search").value;
+
+	if(!search) {
+		alert("종목명을 입력해 주세요.");
+		return;
+	}
+	
+	$.ajax({
+		type:"GET", // 전송 방식 GET , POST , PUT , DELETE
+		url:"/stock/search", // 전송할 경로
+		data: {"search":search} , // 전송할 키와 값
+		dataType:"JSON", // 반환되는 값의 형식 json , text 를 주로 사용
+		success : function(data) {
+
+            if ( typeof(data) == "undefined" ) return;
+
+			document.getElementById("chart-element").className += "visible";
+			document.getElementById("info-element").className += "visible";
+
+			document.getElementById("itmsNm").innerText = data[0].itmsNm;
+			document.getElementById("basDt").innerText = data[0].basDt;
+			document.getElementById("mrktTotAmt").innerText = data[0].mrktTotAmt;
+			document.getElementById("clpr").innerText = data[0].clpr;
+
+			var dataArray = new Array();
+			var dateArray = new Array();
+			for(var i = 0; i <data.length+1; i++) {
+
+				if(i == 0) {
+					dataArray[0] = "KOSPI";
+					dateArray[0] = "x";
+
+				} else {
+					dataArray[i] = [parseInt(data[i-1].mkp), parseInt(data[i-1].hipr), parseInt(data[i-1].lopr), parseInt(data[i-1].clpr)];
+					dateArray[i] = (data[i-1].basDt).slice(0,4) + "-"+ (data[i-1].basDt).slice(4,6) + "-" + (data[i-1].basDt).slice(6,8);
+				}
+			}
+
+			//columns [시가, 최고, 최저, 종가]
+			var kospi = bb.generate({
+				title: {
+					text: search + " 차트"
+				},
+				data: {
+					x: dateArray[0],
+					columns: [
+						dataArray,
+						dateArray
+					],
+					type: "candlestick", 
+					colors: {
+						KOSPI: "red"
+					},
+				},
+				candlestick: {
+					color: {
+						down: "blue"
+					},
+					width: {
+						ratio: 0.4
+					}
+				},
+				axis: {
+					x: {
+						type: "timeseries",
+						tick: {
+							count: 8,
+							format: "%m-%d"
+						}
+					},
+					y: {
+						show: false
+					},
+					y2: {
+						show: true
+					}
+				},
+				bindto: "#chart"
+			});
+			
+		},
+		error : function(request, status, errorr) {
+			alert("조회 실패!");
+		}
+	}); // end ajax
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="~{common/include}"></th:block>
+<body>
+<div class="container">
+	<th:block th:include="~{common/header}"></th:block>
+    <div class="row">   
+		<div class="col-md-2">
+			<div class="list-group" id="list-tab" role="tablist">
+						<a class="list-group-item list-group-item-action"
+						th:href="@{/community(id = ${boardList.no})}" 
+						th:each="boardList : ${boardList}" th:utext="${boardList.name}" 
+						th:classappend="${boardList.no} == ${boardName.no} ? active">
+						</a>
+			</div>
+		</div>
+		<div class="col-md-10" id="community_sub">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+							<h1 class="h2" th:text="${boardName.name}"></h1>
+			</div>
+			<table class="table">
+				<thead class="table-dark">
+					<tr class="text-center">
+						<th>번호</th>
+						<th style="width:50%">제목</th>
+						<th>글쓴이</th>
+						<th>작성일시</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" th:each="editlist : ${editList}" >
+						<td th:text="${editlist.no}">번호</td>
+						<td class="text-start">
+							<a th:href="@{|/community/detail/${editlist.no}|}" class="text-decoration-none" th:text="${editlist.title}" ></a>
+						</td>
+						<td th:text="${editlist.userNo}">
+							<span>글쓴이</span>
+						</td>
+						<td th:text="${#dates.format(editlist.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성일시</td>
+					</tr>
+				</tbody>
+			</table>			
+		</div>
+    </div>
+    <div class="row">
+    	<div class="col-sm-12 text-end">
+					<a href="board-edit" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
+    	</div>
+    </div>
+    <th:block th:include="~{common/footer}"></th:block>
+</div>
+</body>
+</html>
