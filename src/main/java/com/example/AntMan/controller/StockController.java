@@ -48,8 +48,6 @@ public class StockController {
 
         List<StockInfo> data = stockService.getStockPriceInfo(search);
 
-        System.out.println(data);
-
         return data;
     }
 
