@@ -79,10 +79,10 @@ function sendit() {
 			document.getElementById("chart-element").className += "visible";
 			document.getElementById("info-element").className += "visible";
 
-			document.getElementById("itmsNm").innerText = data[0].itmsNm;
-			document.getElementById("basDt").innerText = data[0].basDt;
-			document.getElementById("mrktTotAmt").innerText = data[0].mrktTotAmt;
-			document.getElementById("clpr").innerText = data[0].clpr;
+			document.getElementById("basDt").innerText = (data[0].basDt).slice(0,4) + "년 "+ (data[0].basDt).slice(4,6) + "월 " + (data[0].basDt).slice(6,8) + "일";
+			document.getElementById("itmsNm").innerText = data[0].itmsNm + "(" + data[0].srtnCd +")";
+			document.getElementById("mrktTotAmt").innerText = numberToKorean(data[0].mrktTotAmt);
+			document.getElementById("clpr").innerText = numberToKorean(data[0].clpr);
 
 			var dataArray = new Array();
 			var dateArray = new Array();
@@ -146,6 +146,7 @@ function sendit() {
 		}
 	}); // end ajax
 }
+
 </script>
 </body>
 </html>

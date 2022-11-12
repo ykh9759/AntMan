@@ -22,6 +22,7 @@ import com.example.AntMan.domain.dto.StockInfo;
 import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.utils.Api;
 import com.example.AntMan.utils.JsoupCrawling;
+import com.example.AntMan.utils.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,8 +53,8 @@ public class StockService {
         url.append(
                 "?serviceKey=ZSQ5tFt%2BI3mMbrSETJGSYuuiYkCCg3Djc5AFceQcedwdmP32HOZg3%2B9LFSRkmYMhhpl1YN0eaphylK%2BakSraIg%3D%3D");
         url.append("&numOfRows=100");
-        url.append("&idxNm=" + encodeIdxNm);
         url.append("&resultType=json");
+        url.append("&idxNm=" + encodeIdxNm);
         url.append("&beginBasDt=" + startDate);
 
         System.out.println("URL: " + url);
@@ -82,7 +83,7 @@ public class StockService {
     }
 
     // 주식 종목 정보 가져온다
-    public List<StockInfo> getStockPriceInfo(String itmsNm) {
+    public List<StockInfo> getStockPriceInfo(String search) {
 
         // 한달전 날짜
         Calendar mon = Calendar.getInstance();
@@ -90,12 +91,16 @@ public class StockService {
         String startDate = new java.text.SimpleDateFormat("yyyyMMdd").format(mon.getTime());
         System.out.println("시작날짜: " + startDate);
 
-        // 한글은 url 인코딩을 해준다
-        String encodeItmsNm = "";
-        try {
-            encodeItmsNm = URLEncoder.encode(itmsNm, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        String strSearch = "";
+        if (Utils.isNumeric(search)) {
+            strSearch = "&likeSrtnCd=" + search;
+        } else {
+            // 한글은 url 인코딩을 해준다
+            try {
+                strSearch = "&itmsNm=" + URLEncoder.encode(search, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         // url세팅
@@ -104,8 +109,8 @@ public class StockService {
         url.append(
                 "?serviceKey=ZSQ5tFt%2BI3mMbrSETJGSYuuiYkCCg3Djc5AFceQcedwdmP32HOZg3%2B9LFSRkmYMhhpl1YN0eaphylK%2BakSraIg%3D%3D");
         url.append("&numOfRows=100");
-        url.append("&itmsNm=" + encodeItmsNm);
         url.append("&resultType=json");
+        url.append(strSearch);
         url.append("&beginBasDt=" + startDate);
 
         System.out.println("URL: " + url);
