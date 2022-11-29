@@ -1,8 +1,8 @@
 package com.example.AntMan.service;
 
-import com.example.AntMan.repository.MemberRepository;
+import com.example.AntMan.repository.UserRepository;
 import com.example.AntMan.utils.Encrypt;
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.domain.dto.SignUp;
 
 import java.util.HashMap;
@@ -16,9 +16,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 @Service
-public class MemberService {
+public class UserService {
     @Autowired
-    private MemberRepository memberRepository;
+    private UserRepository userRepository;
 
     // 회원가입 유효성 확인
     public Map<String, String> validateHandling(Errors errors) {
@@ -34,9 +34,9 @@ public class MemberService {
     public Optional<String> checkDuplication(SignUp signUp) {
 
         Optional<String> returnStr;
-        boolean usernameDuplicate = memberRepository.existsById(signUp.getId());
-        boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(signUp.getPhoneNumber());
-        boolean emailDuplicate = memberRepository.existsByEmail(signUp.getEmail());
+        boolean usernameDuplicate = userRepository.existsById(signUp.getId());
+        boolean phoneNumberDuplicate = userRepository.existsByPhoneNumber(signUp.getPhoneNumber());
+        boolean emailDuplicate = userRepository.existsByEmail(signUp.getEmail());
 
         if (usernameDuplicate) {
             returnStr = Optional.of("이미 존재하는 아이디입니다.");
@@ -53,30 +53,30 @@ public class MemberService {
 
     // 회원가입
     @Transactional
-    public Member memberSave(Member member) {
+    public User userSave(User user) {
         String salt = Encrypt.getSalt();
-        String encodePassword = Encrypt.getEncrypt(member.getPassword(), salt);
+        String encodePassword = Encrypt.getEncrypt(user.getPassword(), salt);
 
-        member.passwordEncrypt(encodePassword, salt);
+        user.passwordEncrypt(encodePassword, salt);
 
-        memberRepository.save(member);
+        userRepository.save(user);
 
-        return member;
+        return user;
     }
 
     // 로그인
-    public Optional<Member> login(String loginId, String password) {
+    public Optional<User> login(String loginId, String password) {
 
         String loginPassword;
 
-        Optional<Member> member = memberRepository.findById(loginId);
+        Optional<User> user = userRepository.findById(loginId);
 
-        if (member.isPresent()) {
+        if (user.isPresent()) {
 
-            loginPassword = Encrypt.getEncrypt(password, member.get().getSalt());
+            loginPassword = Encrypt.getEncrypt(password, user.get().getSalt());
 
-            if (member.get().getPassword().equals(loginPassword)) {
-                return member;
+            if (user.get().getPassword().equals(loginPassword)) {
+                return user;
             } else {
                 return Optional.empty();
             }

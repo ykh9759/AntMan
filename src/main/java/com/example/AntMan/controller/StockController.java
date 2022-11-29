@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.AntMan.domain.dto.StockInfo;
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.service.StockService;
 import com.example.AntMan.utils.Alert;
 
@@ -28,15 +28,15 @@ public class StockController {
     @GetMapping("/stock")
     public String search(HttpServletRequest request, HttpServletResponse response, Model model) {
         HttpSession session = request.getSession(false);
-        Member member = null;
+        User user = null;
 
         if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
+            user = (User) session.getAttribute("LOGIN_USER");
         } else {
             Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
             return "";
         }
-        model.addAttribute("member", member);
+        model.addAttribute("user", user);
 
         return "search";
     }

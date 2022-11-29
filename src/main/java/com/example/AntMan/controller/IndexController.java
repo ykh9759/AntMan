@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockTopRank;
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.service.StockService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,12 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Member member = null;
+        User user = null;
 
         if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
+            user = (User) session.getAttribute("LOGIN_USER");
         }
-        model.addAttribute("member", member);
+        model.addAttribute("user", user);
 
         List<StockIndex> kospi = stockService.getStockMarketIndex("코스피"); // 코스피지수
         List<StockIndex> kosdaq = stockService.getStockMarketIndex("코스닥"); // 코스닥지수
@@ -62,12 +62,12 @@ public class IndexController {
     // 로그인페이지
     @GetMapping("/login")
     public String login() {
-        return "member/login";
+        return "user/login";
     }
 
     // 회원가입페이지
     @GetMapping("/sign-up")
     public String signUp() {
-        return "member/signUp";
+        return "user/signUp";
     }
 }

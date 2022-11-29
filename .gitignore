@@ -54,3 +54,5 @@ nohup.out
 .bashrc
 .viminfo
 
+/src/main/resources/static/file/
+

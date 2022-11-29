@@ -1,6 +1,6 @@
 package com.example.AntMan.domain.dto;
 
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,8 +33,8 @@ public class SignUp {
     @Email(message = "이메일 형식으로 입력해 주세요")
     private String email;
 
-    public Member toEntity() {
-        return Member.builder()
+    public User toEntity() {
+        return User.builder()
                 .id(id)
                 .password(password)
                 .name(name)

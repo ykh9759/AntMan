@@ -1,8 +1,8 @@
 package com.example.AntMan.controller;
 
-import com.example.AntMan.service.MemberService;
+import com.example.AntMan.service.UserService;
 import com.example.AntMan.utils.Alert;
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 
 import com.example.AntMan.domain.dto.SignUp;
 import com.example.AntMan.domain.dto.Login;
@@ -23,10 +23,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class MemberController {
+public class UserController {
 
     @Autowired
-    MemberService memberService;
+    UserService userService;
 
     @PostMapping("/sign-up/save")
     public void save(@Valid SignUp signUp, Errors errors, HttpServletResponse response)
@@ -35,11 +35,11 @@ public class MemberController {
         String password = signUp.getPassword(); // 비밀번호
         String passwordCheck = signUp.getPasswordCheck(); // 비밀번호 재확인
         Optional<String> checkDupl; // 중복검사 반환 문자열 저장
-        Member member = signUp.toEntity(); // Entity 객체 생성
+        User user = signUp.toEntity(); // Entity 객체 생성
 
         // 회원정보 유효성 검사
         if (errors.hasErrors()) {
-            Map<String, String> validatorResult = memberService.validateHandling(errors);
+            Map<String, String> validatorResult = userService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
                 Alert.alertAndBackPage(response, validatorResult.get(key));
@@ -54,14 +54,14 @@ public class MemberController {
         }
 
         // 아이디, 전화번호, 이메일 중복 체크
-        checkDupl = memberService.checkDuplication(signUp);
+        checkDupl = userService.checkDuplication(signUp);
         if (checkDupl.isPresent()) {
             Alert.alertAndBackPage(response, checkDupl.get());
             return;
         }
 
         // 회원정보 저장
-        memberService.memberSave(member);
+        userService.userSave(user);
 
         // 회원가입 완료 알림창 띄운 후 메인으로 이동
         Alert.alertAndMovePage(response, "회원가입이 완료 되었습니다.", "/");
@@ -73,7 +73,7 @@ public class MemberController {
             throws IOException {
 
         if (errors.hasErrors()) {
-            Map<String, String> validatorResult = memberService.validateHandling(errors);
+            Map<String, String> validatorResult = userService.validateHandling(errors);
 
             for (String key : validatorResult.keySet()) {
                 Alert.alertAndBackPage(response, validatorResult.get(key));
@@ -83,11 +83,11 @@ public class MemberController {
 
         String id = login.getId();
         String password = login.getPassword();
-        Optional<Member> member = memberService.login(id, password);
+        Optional<User> user = userService.login(id, password);
 
-        if (member.isPresent() && id.equals(member.get().getId())) {
+        if (user.isPresent() && id.equals(user.get().getId())) {
             HttpSession session = request.getSession();
-            session.setAttribute("LOGIN_MEMBER", member.get()); // 로그인 회원 세션 저장
+            session.setAttribute("LOGIN_USER", user.get()); // 로그인 회원 세션 저장
 
             Alert.alertAndMovePage(response, "안녕하세요. " + id + " 님", "/");
             return;

@@ -7,8 +7,8 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "member")
-public class Member extends Time {
+@Entity(name = "user")
+public class User extends Time {
 
     @Id // 테이블 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동증가
@@ -30,7 +30,7 @@ public class Member extends Time {
     private Integer status;
 
     @Builder
-    public Member(String id, String password, String name, String salt, String phoneNumber, String email,
+    public User(String id, String password, String name, String salt, String phoneNumber, String email,
             Integer status) {
         this.id = id;
         this.password = password;

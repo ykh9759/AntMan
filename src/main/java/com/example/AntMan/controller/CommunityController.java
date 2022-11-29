@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 
 import com.example.AntMan.domain.dto.BoardDetail;
@@ -26,9 +27,10 @@ import com.example.AntMan.domain.dto.ReplyList;
 import com.example.AntMan.domain.dto.ReplySave;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
-import com.example.AntMan.domain.entity.Member;
+import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.domain.entity.Reply;
 import com.example.AntMan.service.BoardService;
+import com.example.AntMan.service.FileService;
 import com.example.AntMan.utils.Alert;
 
 @Controller
@@ -36,6 +38,9 @@ public class CommunityController {
 
     @Autowired
     BoardService boardService;
+
+    @Autowired
+    FileService fileService;
 
     Board board;
 
@@ -54,15 +59,15 @@ public class CommunityController {
         model.addAttribute("boardNo", id);
 
         HttpSession session = request.getSession(false);
-        Member member = null;
+        User user = null;
 
         if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
+            user = (User) session.getAttribute("LOGIN_USER");
         } else {
             Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
             return "";
         }
-        model.addAttribute("member", member);
+        model.addAttribute("user", user);
 
         return "community/community_detail";
     }
@@ -78,13 +83,13 @@ public class CommunityController {
         model.addAttribute("boardList", boardList);
 
         HttpSession session = request.getSession(false);
-        Member member = null;
+        User user = null;
 
         if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
+            user = (User) session.getAttribute("LOGIN_USER");
         }
 
-        model.addAttribute("member", member);
+        model.addAttribute("user", user);
 
         return "community/board";
     }
@@ -93,15 +98,15 @@ public class CommunityController {
     public String boardEdit(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         HttpSession session = request.getSession(false);
-        Member member = null;
+        User user = null;
 
         if (session != null) {
-            member = (Member) session.getAttribute("LOGIN_MEMBER");
+            user = (User) session.getAttribute("LOGIN_USER");
         } else {
             Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
             return "";
         }
-        model.addAttribute("member", member);
+        model.addAttribute("user", user);
 
         return "community/boardEdit";
     }
@@ -121,6 +126,10 @@ public class CommunityController {
         board = edit.toEntity();
 
         boardService.boardSave(board);
+
+        for (MultipartFile multipartFile : edit.getFiles()) {
+            fileService.saveFile(multipartFile, board.getNo());
+        }
 
         Alert.alertAndMovePage(response, "등록 되었습니다.", "/community?id=1");
 

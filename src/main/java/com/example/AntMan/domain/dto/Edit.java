@@ -1,6 +1,10 @@
 package com.example.AntMan.domain.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.AntMan.domain.entity.Board;
 
@@ -23,6 +27,8 @@ public class Edit {
 
 	@NotBlank(message = "내용을 입력해 주세요.")
 	private String contents;
+
+	private List<MultipartFile> files;
 
 	public Board toEntity() {
 		return Board.builder()

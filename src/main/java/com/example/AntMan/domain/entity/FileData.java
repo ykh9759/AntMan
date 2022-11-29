@@ -8,32 +8,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+@Getter
 @NoArgsConstructor
 @Table(name = "file")
 @Entity
-public class File extends Time {
-    
+public class FileData extends Time {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer no;
 
     @Column(name = "board_no")
     private Integer boardNo;
-    
-    private String orgNm;
-    
-    private String savedNm;
-    
-    private String savedPath;
+
+    @Column(name = "org_file_name")
+    private String orgfileName;
+
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "file_path")
+    private String filePath;
 
     @Builder
-    public File(Integer no, String orgNm, String savedNm, String savedPath) {
+    public FileData(Integer no, Integer boardNo, String orgfileName, String fileName, String filePath) {
         this.no = no;
-        this.orgNm = orgNm;
-        this.savedNm = savedNm;
-        this.savedPath = savedPath;
+        this.boardNo = boardNo;
+        this.orgfileName = orgfileName;
+        this.fileName = fileName;
+        this.filePath = filePath;
     }
 }
-
