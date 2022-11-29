@@ -35,7 +35,7 @@ public class FileService {
         String fileName = UUID.randomUUID().toString() + orgfileName.substring(orgfileName.lastIndexOf("."));
 
         // 파일을 불러올 때 사용할 파일 경로
-        String filePath = fileDir + fileName;
+        String filePath = fileDir;
 
         // 파일 엔티티 생성
         FileData file = FileData.builder()
