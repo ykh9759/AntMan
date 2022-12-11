@@ -75,21 +75,25 @@ public class CommunityController {
     @GetMapping("/community")
     public String community(HttpServletRequest request, HttpServletResponse response, Model model,
             @RequestParam String id) {
-        List<EditList> editList = this.boardService.getList(Integer.valueOf(id));
-        List<BoardList> boardList = this.boardService.getDivList();
-        BoardDivList boardName = this.boardService.getDivName(Integer.valueOf(id));
-        model.addAttribute("boardName", boardName);
-        model.addAttribute("editList", editList);
-        model.addAttribute("boardList", boardList);
 
         HttpSession session = request.getSession(false);
         User user = null;
 
         if (session != null) {
             user = (User) session.getAttribute("LOGIN_USER");
+        } else {
+            Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
+            return "";
         }
 
         model.addAttribute("user", user);
+
+        List<EditList> editList = this.boardService.getList(Integer.valueOf(id));
+        List<BoardList> boardList = this.boardService.getDivList();
+        BoardDivList boardName = this.boardService.getDivName(Integer.valueOf(id));
+        model.addAttribute("boardName", boardName);
+        model.addAttribute("editList", editList);
+        model.addAttribute("boardList", boardList);
 
         return "community/board";
     }
@@ -112,7 +116,8 @@ public class CommunityController {
     }
 
     @PostMapping("/board-edit/save")
-    public void EditCreate(@Valid Edit edit, Errors errors, HttpServletResponse response) throws Exception {
+    public void EditCreate(@Valid Edit edit, Errors errors, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         if (errors.hasErrors()) {
             Map<String, String> validatorResult = boardService.validateHandling(errors);
@@ -121,6 +126,17 @@ public class CommunityController {
                 Alert.alertAndBackPage(response, validatorResult.get(key));
                 return;
             }
+        }
+
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+        }
+
+        if (user != null) {
+            edit.setUserNo(user.getNo());
         }
 
         board = edit.toEntity();
