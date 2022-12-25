@@ -10,7 +10,7 @@
 
 		    <div class="row d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 		      <div class="col-md-9">
-		          <font size="3px" th:text="${boardDetail.userNo}"><b>작성자</b></font>
+		          <font size="3px" th:text="${boardDetail.userName}"><b>작성자</b></font>
 		          <font size="2px" th:text="${#dates.format(boardDetail.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성일시</font>
 		      </div> 
 		      <div align="right" class="col-md-3" th:text="'조회 : '+${boardDetail.viewCount}">
@@ -27,7 +27,7 @@
       
 		    <div class="card-body">
 		        <div class="card-text p-3 border-bottom" th:each="replyList : ${replyList}">
-		          <div><b><font size="3px" th:text="${replyList.UserNo}">댓글작성자명</font></b></div>
+		          <div><b><font size="3px" th:text="${replyList.UserName}">댓글작성자명</font></b></div>
 		          <div><font size="3px" th:text="${replyList.comment}">댓글내용</font></div>
 		          <div><font size="2px" th:text="${#dates.format(replyList.created_time, 'yyyy.MM.dd HH:mm')}">입력시간 : 2022.07.05. 22:16</font></div>
 		        </div>

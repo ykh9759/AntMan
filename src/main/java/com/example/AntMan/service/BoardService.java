@@ -3,6 +3,7 @@ package com.example.AntMan.service;
 import com.example.AntMan.repository.BoardDivRepository;
 import com.example.AntMan.repository.BoardRepository;
 import com.example.AntMan.repository.ReplyRepository;
+import com.example.AntMan.repository.UserRepository;
 import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.EditList;
@@ -10,6 +11,7 @@ import com.example.AntMan.domain.dto.ReplyList;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
 import com.example.AntMan.domain.entity.Reply;
+import com.example.AntMan.domain.entity.User;
 
 import javax.transaction.Transactional;
 
@@ -26,6 +28,9 @@ import java.util.Optional;
 
 @Service
 public class BoardService {
+	@Autowired
+    private UserRepository userRepository;
+	
 	@Autowired
     private BoardRepository boardRepository;
 	
@@ -47,10 +52,12 @@ public class BoardService {
 	// 게시판 내용
 	public BoardDetail getBoardDetail(Integer id) {  
 	    Optional<Board> board = this.boardRepository.findById(id);
+	    
+	    Optional<User> user = userRepository.findByno(board.get().getUserNo());  
 	        
 	    BoardDetail boardDetail = BoardDetail.builder()
 	        		.boardDiv(board.get().getBoardDiv())
-	        		.userNo(board.get().getUserNo())
+	        		.userName(user.get().getName())
 	        		.title(board.get().getTitle())
 	        		.contents(board.get().getContents())
 	        		.created_time(board.get().getCreated_time())
@@ -75,8 +82,11 @@ public class BoardService {
 		List<ReplyList> replyDtoList = new ArrayList<>();
 		
 		for (Reply ReplyEntity : reply) {
+			
+			User user = userRepository.findByno(ReplyEntity.getUserNo()).get();
+			
 			ReplyList replyList = ReplyList.builder()
-					.UserNo(ReplyEntity.getUserNo())
+					.UserName(user.getName())
 					.comment(ReplyEntity.getComment())
 					.created_time(ReplyEntity.getCreated_time())
 					.updated_time(ReplyEntity.getUpdated_time())
@@ -94,10 +104,13 @@ public class BoardService {
 		List<EditList> editDtoList = new ArrayList<>();
 		
 		for (Board boardEntity : board) {
+		
+	        User user = userRepository.findByno(boardEntity.getUserNo()).get();        
+			
 			EditList editList = EditList.builder()
 					.no(boardEntity.getNo())
 					.boardDiv(boardEntity.getBoardDiv())
-					.userNo(boardEntity.getUserNo())
+					.userName(user.getName())
 					.title(boardEntity.getTitle())
 					.created_time(boardEntity.getCreated_time())
 					.updated_time(boardEntity.getUpdated_time())

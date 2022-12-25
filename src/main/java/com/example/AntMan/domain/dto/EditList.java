@@ -11,7 +11,7 @@ public class EditList {
 	
 	private Integer boardDiv; // 게시판 분류번호
 	
-	private Integer userNo;
+	private String userName;
 	
 	private String title;
 	
@@ -20,10 +20,10 @@ public class EditList {
 	private Date updated_time;
 	
 	@Builder
-    public EditList(Integer no, Integer boardDiv, Integer userNo, String title, Date created_time, Date updated_time) {
+    public EditList(Integer no, Integer boardDiv, String userName, String title, Date created_time, Date updated_time) {
         this.no = no;
         this.boardDiv = boardDiv;
-        this.userNo = userNo;
+        this.userName = userName;
         this.title = title;
         this.created_time = created_time;
         this.updated_time = updated_time;

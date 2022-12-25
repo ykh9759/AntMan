@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class ReplyList {
 	
-	private Integer UserNo;
+	private String UserName;
 	
 	private String comment;
 	
@@ -18,8 +18,8 @@ public class ReplyList {
 	private Date updated_time;
 	
 	@Builder
-	public ReplyList(Integer UserNo, String comment, Date created_time, Date updated_time) {
-		this.UserNo = UserNo;
+	public ReplyList(String UserName, String comment, Date created_time, Date updated_time) {
+		this.UserName = UserName;
 		this.comment = comment;
 		this.created_time = created_time;
 		this.updated_time = updated_time;

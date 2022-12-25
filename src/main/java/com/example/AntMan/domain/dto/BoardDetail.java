@@ -9,7 +9,7 @@ public class BoardDetail {
 	
 	private Integer boardDiv; 
 	
-	private Integer userNo;
+	private String userName;
 	
 	private String title;
 	
@@ -20,9 +20,9 @@ public class BoardDetail {
 	private Integer viewCount;
 	
 	@Builder
-    public BoardDetail(Integer boardDiv, Integer userNo, String title, String contents, Date created_time, Integer viewCount) {
+    public BoardDetail(Integer boardDiv, String userName, String title, String contents, Date created_time, Integer viewCount) {
         this.boardDiv = boardDiv;
-        this.userNo = userNo;
+        this.userName = userName;
         this.title = title;
         this.contents = contents;
         this.created_time = created_time;

@@ -33,7 +33,7 @@
 						<td class="text-start">
 							<a th:href="@{|/community/detail/${editlist.no}|}" class="text-decoration-none" th:text="${editlist.title}" ></a>
 						</td>
-						<td th:text="${editlist.userNo}">
+						<td th:text="${editlist.userName}">
 							<span>글쓴이</span>
 						</td>
 						<td th:text="${#dates.format(editlist.created_time, 'yyyy-MM-dd HH:mm:ss')}">작성일시</td>
