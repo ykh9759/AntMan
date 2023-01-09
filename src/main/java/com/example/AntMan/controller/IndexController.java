@@ -3,6 +3,7 @@ package com.example.AntMan.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.service.StockService;
+import com.example.AntMan.utils.Alert;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,8 +40,8 @@ public class IndexController {
 
         if (session != null) {
             user = (User) session.getAttribute("LOGIN_USER");
+            model.addAttribute("user", user);
         }
-        model.addAttribute("user", user);
 
         List<StockIndex> kospi = stockService.getStockMarketIndex("코스피"); // 코스피지수
         List<StockIndex> kosdaq = stockService.getStockMarketIndex("코스닥"); // 코스닥지수
@@ -69,5 +71,23 @@ public class IndexController {
     @GetMapping("/sign-up")
     public String signUp() {
         return "user/signUp";
+    }
+
+    // 프로필페이지
+    @GetMapping("/profile")
+    public String profile(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+            model.addAttribute("user", user);
+
+            return "user/profile";
+        } else {
+            Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
+            return "";
+        }
     }
 }

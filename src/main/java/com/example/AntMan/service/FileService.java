@@ -24,13 +24,14 @@ public class FileService {
     @Autowired
     private final FileRepository fileRepository;
 
+    private String orgfileName;
+
     public Integer saveFile(MultipartFile files, Integer boardNo) throws IOException {
         if (files.isEmpty()) {
             return null;
         }
 
-        // 원래 파일 이름 추출
-        String orgfileName = files.getOriginalFilename();
+        orgfileName = files.getOriginalFilename();
 
         String fileName = UUID.randomUUID().toString() + orgfileName.substring(orgfileName.lastIndexOf("."));
 
