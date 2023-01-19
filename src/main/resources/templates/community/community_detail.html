@@ -1,8 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="~{common/include}"></th:block>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script th:inline="javascript">
+
+	function reloadDivArea() {
+    	$('#divReloadLayer').load(location.href+' #divReloadLayer');
+	}
+
+	function fn_editReply(rid, content){
+		
+		reloadDivArea();
+		
+		setTimeout(function() {
+			
+		  	var htmls = '';
+		
+			htmls += '<form action="modify/'+rid+'" method="post" class="my-3">';
+			htmls += '        <input type="hidden" style="resize: none;" class="form-control" rows="3" id="replyNo" name="replyNo" value="'+rid+'"></input>';
+			htmls += '       <div class="col-md-12">';
+			htmls += '         <textarea style="resize: none;" class="form-control" rows="3" id="comment" name="comment">'+content+'</textarea>';
+			htmls += '       </div>';
+			htmls += '       <div class="d-grid gap-2 p-3 d-md-flex justify-content-md-end">';
+			htmls += '           <button class="btn btn-outline-secondary btn-sm" type="submit">등록</button>';
+			htmls += '           <a href="javascript:reloadDivArea();" class="btn btn-outline-secondary btn-sm">취소</a>';
+			htmls += '       </div>';
+			htmls += '</form>'; 
+	
+			$('#reply_' + rid).replaceWith(htmls);
+	
+			$('#reply_' + rid).focus();
+		}, 300);		
+		
+	}
+</script>	
 <body>
 <div class="container">
 	<th:block th:include="~{common/header}"></th:block>
+	<div th:if="${user.no == boardDetail.no}" align="right">
+		<a href="modify" class="btn btn-secondary float-right">수정</a>
+        <a th:href="@{|/community/detail/boarddelete/${boardNo}|}" class="btn btn-danger float-right" onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+	</div>
     <div class="row">
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 ">
 	        	<h1 class="h2" th:text="${boardDetail.title}">게시판 제목</h1>
@@ -20,20 +57,24 @@
 
 
 		    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-4 mb-3 border-bottom"
-		    	th:utext="${boardDetail.contents}">
-		        
+		    	th:utext="${boardDetail.contents}">	        
 		    </div>
 
       
-		    <div class="card-body">
+		    <div id="divReloadLayer" class="card-body">
 		        <div class="card-text p-3 border-bottom" th:each="replyList : ${replyList}">
-		          <div><b><font size="3px" th:text="${replyList.UserName}">댓글작성자명</font></b></div>
-		          <div><font size="3px" th:text="${replyList.comment}">댓글내용</font></div>
-		          <div><font size="2px" th:text="${#dates.format(replyList.created_time, 'yyyy.MM.dd HH:mm')}">입력시간 : 2022.07.05. 22:16</font></div>
+		          <div th:id="'reply_'+${replyList.id}"><b><font size="3px" th:text="${replyList.UserName}">댓글작성자명</font></b></divth:id="'reply_'+${replyList.id}">
+			          <div><font size="3px" th:text="${replyList.comment}">댓글내용</font></div>
+			          <div><font size="2px" th:text="${#dates.format(replyList.created_time, 'yyyy.MM.dd HH:mm')}">입력시간 : 2022.07.05. 22:16</font></div>
+			          <div th:if="${user.no == replyList.no}" class="d-grid gap-2 d-md-flex justify-content-md-end">
+			           <a th:href="'javascript:fn_editReply(&quot;'+${replyList.id}+'&quot;,&quot;'+${replyList.comment}+'&quot;);'" class="btn btn-outline-secondary btn-sm">수정</a>
+			           <a th:href="@{|/community/detail/replydelete/${replyList.id}|}" class="delete btn btn-outline-secondary btn-sm"  onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+			      	  </div>
 		        </div>
 		    </div>
  
 		    <form th:action="@{|/community/reply/save/${boardNo}|}" method="post" class="my-3">
+		        <input type="hidden" style="resize: none;" class="form-control" rows="3" id="UserNo" name="UserNo" th:value="${user.no}"></input>
 		        <div class="col-md-12">
 		          <textarea style="resize: none;" class="form-control" rows="3" id="comment" name="comment" placeholder="댓글"></textarea>
 		        </div>

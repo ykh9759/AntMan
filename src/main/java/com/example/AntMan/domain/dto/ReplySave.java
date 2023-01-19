@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 
 import com.example.AntMan.domain.entity.Reply;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,7 @@ public class ReplySave {
 	public Reply toEntity() {
         return Reply.builder()
                 .BoardNo(boardNo)
-                .UserNo(1)//.UserNo(UserNo)
+                .UserNo(UserNo)//.UserNo(UserNo)
                 .ReplyNo(null)//.ReplyNo(ReplyNo)
                 .comment(comment)
                 .build();

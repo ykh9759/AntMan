@@ -57,6 +57,7 @@ public class BoardService {
 	        
 	    BoardDetail boardDetail = BoardDetail.builder()
 	        		.boardDiv(board.get().getBoardDiv())
+	        		.no(board.get().getUserNo())
 	        		.userName(user.get().getName())
 	        		.title(board.get().getTitle())
 	        		.contents(board.get().getContents())
@@ -86,6 +87,8 @@ public class BoardService {
 			User user = userRepository.findByno(ReplyEntity.getUserNo()).get();
 			
 			ReplyList replyList = ReplyList.builder()
+					.id(ReplyEntity.getNo())
+					.no(ReplyEntity.getUserNo())
 					.UserName(user.getName())
 					.comment(ReplyEntity.getComment())
 					.created_time(ReplyEntity.getCreated_time())
@@ -160,5 +163,34 @@ public class BoardService {
 		replyRepository.save(reply);
 	    return reply;
 	}
+	
+	// 댓글수정
+	public void replymodify(Reply reply, String comment) {
+		reply.setComment(comment);
+		this.replyRepository.save(reply);
+	}
+	
+	// 댓글삭제 
+	public void replydelete(Reply reply) {
+		this.replyRepository.delete(reply);
+	}
+	
+	// 게시글 삭제 
+	public void boarddelete(Board board) {
+		this.boardRepository.delete(board);
+	}
+	
+	// 댓글
+	public Reply getReply(Integer id) {
+		Optional<Reply> reply = this.replyRepository.findById(id);
+		return reply.get();		
+	}
+	
+	// 게시글
+	public Board getBoard(Integer id) {
+		Optional<Board> board = this.boardRepository.findById(id);
+		return board.get();		
+	}
+	
 	
 }

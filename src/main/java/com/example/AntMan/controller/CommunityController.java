@@ -176,5 +176,33 @@ public class CommunityController {
 
         return;
     }
+    
+    // 댓글 modify
+    @PostMapping("/community/detail/modify/{id}")
+    public String replyModify(@Valid ReplySave replySave, @PathVariable("id") Integer id) {
+
+    	Reply reply = this.boardService.getReply(id);
+        this.boardService.replymodify(reply, replySave.getComment());
+        return String.format("redirect:/community/detail/%s", reply.getBoardNo());
+
+    }
+    
+    // 댓글 delete
+    @GetMapping("/community/detail/replydelete/{id}")
+    public String replyDelete(@PathVariable("id") Integer id) {
+        Reply reply = this.boardService.getReply(id);
+        this.boardService.replydelete(reply);
+        return String.format("redirect:/community/detail/%s", reply.getBoardNo());
+    }
+    
+    // 게시물 delete
+    @GetMapping("/community/detail/boarddelete/{id}")
+    public String boardDelete(@PathVariable("id") Integer id) {
+    	//TODO 댓글삭제
+    	
+    	Board board = this.boardService.getBoard(id);
+        this.boardService.boarddelete(board);
+        return String.format("redirect:/community?id=1");
+    }
 
 }
