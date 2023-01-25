@@ -198,11 +198,53 @@ public class CommunityController {
     // 게시물 delete
     @GetMapping("/community/detail/boarddelete/{id}")
     public String boardDelete(@PathVariable("id") Integer id) {
-    	//TODO 댓글삭제
-    	
     	Board board = this.boardService.getBoard(id);
         this.boardService.boarddelete(board);
         return String.format("redirect:/community?id=1");
+    }
+    
+    // 게시물 modify 창
+    @GetMapping("/community/detail/boardmodify/{id}")
+    public String boardModify(@PathVariable("id") Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// 게시물 디테일
+        BoardDetail boardDetail = this.boardService.getBoardDetail(id);
+        model.addAttribute("boardDetail", boardDetail);
+        // 게시물 아이디
+        model.addAttribute("boardNo", id);
+        
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+        } else {
+            Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
+            return "";
+        }
+        model.addAttribute("user", user);
+    	
+    	return "community/boardModify";
+    }
+    
+    // 게시물 modify 로직
+    @PostMapping("/community/detail/boardmodify/{id}")
+    public void boardModify(@Valid Board board, HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Integer id)
+            throws Exception {
+
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+        }
+        
+        Board boardEntity = this.boardService.getBoard(id);
+        this.boardService.boardmodify(boardEntity, board.getTitle(), board.getContents());
+
+        Alert.alertAndMovePage(response, "등록 되었습니다.", "/community/detail/"+id);
+
+        return;
     }
 
 }

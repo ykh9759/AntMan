@@ -177,7 +177,15 @@ public class BoardService {
 	
 	// 게시글 삭제 
 	public void boarddelete(Board board) {
-		this.boardRepository.delete(board);
+		this.boardRepository.delete(board); // 게시물 삭제
+		this.replyRepository.deleteByboardNo(board.getNo()); // 게시물에 해당하는 댓글삭제
+	}
+	
+	// 게시글 수정
+	public void boardmodify(Board board, String title, String contents) {
+		board.setTitle(title);
+		board.setContents(contents);
+		this.boardRepository.save(board);
 	}
 	
 	// 댓글

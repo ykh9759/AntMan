@@ -37,7 +37,7 @@
 <div class="container">
 	<th:block th:include="~{common/header}"></th:block>
 	<div th:if="${user.no == boardDetail.no}" align="right">
-		<a href="modify" class="btn btn-secondary float-right">수정</a>
+		<a th:href="@{|/community/detail/boardmodify/${boardNo}|}" class="btn btn-secondary float-right">수정</a>
         <a th:href="@{|/community/detail/boarddelete/${boardNo}|}" class="btn btn-danger float-right" onclick="return confirm('삭제하시겠습니까?');">삭제</a>
 	</div>
     <div class="row">
