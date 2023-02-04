@@ -14,7 +14,7 @@
  
  ### 노션
 
- - https://www.notion.so/c6ab515f60954c269fea05dab64ce1bb
+ - https://scratched-game-3d3.notion.site/c6ab515f60954c269fea05dab64ce1bb
 
 
 ### Language
