@@ -11,6 +11,10 @@
  - 기업의 정보 확인
  - 커뮤니티를 통한 주식 정보 교환
  - 주가정보 확인
+ 
+ ### 노
+
+ - https://www.notion.so/c6ab515f60954c269fea05dab64ce1bb
 
 
 ### Language
