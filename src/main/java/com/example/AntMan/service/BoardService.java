@@ -20,6 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,6 +106,7 @@ public class BoardService {
 		return replyDtoList;
 	}
 	
+	/*
 	// 게시판 구분별 리스트
 	public List<EditList> getList(Integer id) {
 		List<Board> board = boardRepository.findByboardDiv(id);
@@ -121,6 +127,30 @@ public class BoardService {
 			
 			editDtoList.add(editList);
 		}
+		
+		return editDtoList;
+	}
+	*/
+	
+	// 게시판 구분별 리스트
+	public Page<EditList> getList(Integer id, int page) {
+		
+		List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("no"));
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		
+		Page<Board> board = boardRepository.findByboardDiv(id, pageable);
+		//List<EditList> editDtoList = new ArrayList<>();
+		
+		Page<EditList> editDtoList = board.map(m -> EditList.builder()
+				.no(m.getNo())
+				.boardDiv(m.getBoardDiv())
+				.userName(userRepository.findByno(m.getUserNo()).get().getName())
+				.title(m.getTitle())
+				.created_time(m.getCreated_time())
+				.updated_time(m.getUpdated_time())
+				.build());
 		
 		return editDtoList;
 	}

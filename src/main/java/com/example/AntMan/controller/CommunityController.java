@@ -33,6 +33,9 @@ import com.example.AntMan.service.BoardService;
 import com.example.AntMan.service.FileService;
 import com.example.AntMan.utils.Alert;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+
 @Controller
 public class CommunityController {
 
@@ -74,7 +77,7 @@ public class CommunityController {
 
     @GetMapping("/community")
     public String community(HttpServletRequest request, HttpServletResponse response, Model model,
-            @RequestParam String id) {
+            @RequestParam String id, @RequestParam(value="page", defaultValue="0") int page) {
 
         HttpSession session = request.getSession(false);
         User user = null;
@@ -88,7 +91,7 @@ public class CommunityController {
 
         model.addAttribute("user", user);
 
-        List<EditList> editList = this.boardService.getList(Integer.valueOf(id));
+        Page<EditList> editList = this.boardService.getList(Integer.valueOf(id), page);
         List<BoardList> boardList = this.boardService.getDivList();
         BoardDivList boardName = this.boardService.getDivName(Integer.valueOf(id));
         model.addAttribute("boardName", boardName);
@@ -110,6 +113,10 @@ public class CommunityController {
             Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
             return "";
         }
+        
+        List<BoardList> boardList = this.boardService.getDivList();
+        
+        model.addAttribute("boardList", boardList);
         model.addAttribute("user", user);
 
         return "community/boardEdit";

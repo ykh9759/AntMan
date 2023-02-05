@@ -42,6 +42,29 @@
 			</table>			
 		</div>
     </div>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!editList.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!editList.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{|?id=${boardName.no}&page=${editList.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, editList.totalPages-1)}"
+            	th:if="${page >= editList.number-5 and page <= editList.number+5}"
+                th:classappend="${page == editList.number} ? 'active'" 
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{|?id=${boardName.no}&page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!editList.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?id=${boardName.no}&page=${editList.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
     <div class="row">
     	<div class="col-sm-12 text-end">
 					<a href="board-edit" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
