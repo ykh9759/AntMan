@@ -33,6 +33,9 @@ import com.example.AntMan.service.BoardService;
 import com.example.AntMan.service.FileService;
 import com.example.AntMan.utils.Alert;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+
 @Controller
 public class CommunityController {
 
@@ -74,7 +77,7 @@ public class CommunityController {
 
     @GetMapping("/community")
     public String community(HttpServletRequest request, HttpServletResponse response, Model model,
-            @RequestParam String id) {
+            @RequestParam String id, @RequestParam(value="page", defaultValue="0") int page) {
 
         HttpSession session = request.getSession(false);
         User user = null;
@@ -88,7 +91,7 @@ public class CommunityController {
 
         model.addAttribute("user", user);
 
-        List<EditList> editList = this.boardService.getList(Integer.valueOf(id));
+        Page<EditList> editList = this.boardService.getList(Integer.valueOf(id), page);
         List<BoardList> boardList = this.boardService.getDivList();
         BoardDivList boardName = this.boardService.getDivName(Integer.valueOf(id));
         model.addAttribute("boardName", boardName);
@@ -110,6 +113,10 @@ public class CommunityController {
             Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
             return "";
         }
+        
+        List<BoardList> boardList = this.boardService.getDivList();
+        
+        model.addAttribute("boardList", boardList);
         model.addAttribute("user", user);
 
         return "community/boardEdit";
@@ -173,6 +180,76 @@ public class CommunityController {
         boardService.replySave(reply);
 
         Alert.alertAndMovePage(response, "등록 되었습니다.", "/community/detail/" + id.toString());
+
+        return;
+    }
+    
+    // 댓글 modify
+    @PostMapping("/community/detail/modify/{id}")
+    public String replyModify(@Valid ReplySave replySave, @PathVariable("id") Integer id) {
+
+    	Reply reply = this.boardService.getReply(id);
+        this.boardService.replymodify(reply, replySave.getComment());
+        return String.format("redirect:/community/detail/%s", reply.getBoardNo());
+
+    }
+    
+    // 댓글 delete
+    @GetMapping("/community/detail/replydelete/{id}")
+    public String replyDelete(@PathVariable("id") Integer id) {
+        Reply reply = this.boardService.getReply(id);
+        this.boardService.replydelete(reply);
+        return String.format("redirect:/community/detail/%s", reply.getBoardNo());
+    }
+    
+    // 게시물 delete
+    @GetMapping("/community/detail/boarddelete/{id}")
+    public String boardDelete(@PathVariable("id") Integer id) {
+    	Board board = this.boardService.getBoard(id);
+        this.boardService.boarddelete(board);
+        return String.format("redirect:/community?id=1");
+    }
+    
+    // 게시물 modify 창
+    @GetMapping("/community/detail/boardmodify/{id}")
+    public String boardModify(@PathVariable("id") Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// 게시물 디테일
+        BoardDetail boardDetail = this.boardService.getBoardDetail(id);
+        model.addAttribute("boardDetail", boardDetail);
+        // 게시물 아이디
+        model.addAttribute("boardNo", id);
+        
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+        } else {
+            Alert.alertAndMovePage(response, "로그인 후 이용이 가능합니다.", "/");
+            return "";
+        }
+        model.addAttribute("user", user);
+    	
+    	return "community/boardModify";
+    }
+    
+    // 게시물 modify 로직
+    @PostMapping("/community/detail/boardmodify/{id}")
+    public void boardModify(@Valid Board board, HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Integer id)
+            throws Exception {
+
+        HttpSession session = request.getSession(false);
+        User user = null;
+
+        if (session != null) {
+            user = (User) session.getAttribute("LOGIN_USER");
+        }
+        
+        Board boardEntity = this.boardService.getBoard(id);
+        this.boardService.boardmodify(boardEntity, board.getTitle(), board.getContents());
+
+        Alert.alertAndMovePage(response, "등록 되었습니다.", "/community/detail/"+id);
 
         return;
     }

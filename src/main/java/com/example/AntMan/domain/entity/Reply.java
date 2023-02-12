@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 
 @Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

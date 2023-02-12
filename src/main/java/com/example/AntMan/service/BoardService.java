@@ -20,6 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -57,6 +62,7 @@ public class BoardService {
 	        
 	    BoardDetail boardDetail = BoardDetail.builder()
 	        		.boardDiv(board.get().getBoardDiv())
+	        		.no(board.get().getUserNo())
 	        		.userName(user.get().getName())
 	        		.title(board.get().getTitle())
 	        		.contents(board.get().getContents())
@@ -86,6 +92,8 @@ public class BoardService {
 			User user = userRepository.findByno(ReplyEntity.getUserNo()).get();
 			
 			ReplyList replyList = ReplyList.builder()
+					.id(ReplyEntity.getNo())
+					.no(ReplyEntity.getUserNo())
 					.UserName(user.getName())
 					.comment(ReplyEntity.getComment())
 					.created_time(ReplyEntity.getCreated_time())
@@ -98,6 +106,7 @@ public class BoardService {
 		return replyDtoList;
 	}
 	
+	/*
 	// 게시판 구분별 리스트
 	public List<EditList> getList(Integer id) {
 		List<Board> board = boardRepository.findByboardDiv(id);
@@ -118,6 +127,30 @@ public class BoardService {
 			
 			editDtoList.add(editList);
 		}
+		
+		return editDtoList;
+	}
+	*/
+	
+	// 게시판 구분별 리스트
+	public Page<EditList> getList(Integer id, int page) {
+		
+		List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("no"));
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		
+		Page<Board> board = boardRepository.findByboardDiv(id, pageable);
+		//List<EditList> editDtoList = new ArrayList<>();
+		
+		Page<EditList> editDtoList = board.map(m -> EditList.builder()
+				.no(m.getNo())
+				.boardDiv(m.getBoardDiv())
+				.userName(userRepository.findByno(m.getUserNo()).get().getName())
+				.title(m.getTitle())
+				.created_time(m.getCreated_time())
+				.updated_time(m.getUpdated_time())
+				.build());
 		
 		return editDtoList;
 	}
@@ -160,5 +193,42 @@ public class BoardService {
 		replyRepository.save(reply);
 	    return reply;
 	}
+	
+	// 댓글수정
+	public void replymodify(Reply reply, String comment) {
+		reply.setComment(comment);
+		this.replyRepository.save(reply);
+	}
+	
+	// 댓글삭제 
+	public void replydelete(Reply reply) {
+		this.replyRepository.delete(reply);
+	}
+	
+	// 게시글 삭제 
+	public void boarddelete(Board board) {
+		this.boardRepository.delete(board); // 게시물 삭제
+		this.replyRepository.deleteByboardNo(board.getNo()); // 게시물에 해당하는 댓글삭제
+	}
+	
+	// 게시글 수정
+	public void boardmodify(Board board, String title, String contents) {
+		board.setTitle(title);
+		board.setContents(contents);
+		this.boardRepository.save(board);
+	}
+	
+	// 댓글
+	public Reply getReply(Integer id) {
+		Optional<Reply> reply = this.replyRepository.findById(id);
+		return reply.get();		
+	}
+	
+	// 게시글
+	public Board getBoard(Integer id) {
+		Optional<Board> board = this.boardRepository.findById(id);
+		return board.get();		
+	}
+	
 	
 }
