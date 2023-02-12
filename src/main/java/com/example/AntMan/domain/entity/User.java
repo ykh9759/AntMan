@@ -1,5 +1,7 @@
 package com.example.AntMan.domain.entity;
 
+import java.util.Optional;
+
 import javax.persistence.*;
 import lombok.*;
 
@@ -41,9 +43,15 @@ public class User extends Time {
         this.status = status;
     }
 
-    public String passwordEncrypt(String encodePassword, String salt) {
+    public void passwordEncrypt(String encodePassword, String salt) {
         this.password = encodePassword;
         this.salt = salt;
-        return this.password;
+    }
+
+    public void update(User upUser) {
+     
+        this.name = upUser.getName();
+        this.phoneNumber = upUser.getPhoneNumber();
+        this.email = upUser.getEmail();
     }
 }
