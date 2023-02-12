@@ -33,7 +33,6 @@ import com.example.AntMan.service.BoardService;
 import com.example.AntMan.service.FileService;
 import com.example.AntMan.utils.Alert;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 
 @Controller
