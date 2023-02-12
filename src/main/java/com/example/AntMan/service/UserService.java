@@ -4,6 +4,7 @@ import com.example.AntMan.repository.UserRepository;
 import com.example.AntMan.utils.Encrypt;
 import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.domain.dto.SignUp;
+import com.example.AntMan.domain.dto.Profile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,12 @@ public class UserService {
         return returnStr;
     }
 
+    public Optional<User> getUser(String id){
+        Optional<User> user = userRepository.findById(id);
+
+        return user;
+    }
+
     // 회원가입
     @Transactional
     public User userSave(User user) {
@@ -60,6 +67,30 @@ public class UserService {
         user.passwordEncrypt(encodePassword, salt);
 
         userRepository.save(user);
+
+        return user;
+    }
+
+    // 회원수정
+    @Transactional
+    public Optional<User> userUpdate(User upUser) {
+        Optional<User> user = userRepository.findById(upUser.getId());
+
+        if(!upUser.getPassword().trim().isEmpty())
+        {
+            String salt = Encrypt.getSalt();
+            String encodePassword = Encrypt.getEncrypt(upUser.getPassword(), salt);
+
+            user.get().passwordEncrypt(encodePassword, salt);
+        }
+
+        user.ifPresent(selectUser->{
+            selectUser.update(upUser);
+         });
+
+        User user2 = user.get();
+
+        userRepository.save(user2);
 
         return user;
     }
@@ -83,6 +114,32 @@ public class UserService {
         } else {
             return Optional.empty();
         }
+    }
+
+
+    /* 아이디, 닉네임, 이메일 중복 여부 확인 */
+    public Optional<String> checkDuplicationProfile(Profile profile) {
+
+        Optional<String> returnStr = Optional.empty();
+        Optional<User> user = userRepository.findById(profile.getId());
+
+        if(user.get().getPhoneNumber() == profile.getPhoneNumber())
+        {
+            boolean phoneNumberDuplicate = userRepository.existsByPhoneNumber(profile.getPhoneNumber());
+            if (phoneNumberDuplicate) {
+                returnStr = Optional.of("이미 존재하는 전화번호입니다.");
+            }
+        }
+
+        if(user.get().getEmail() == profile.getEmail())
+        {
+            boolean emailDuplicate = userRepository.existsByEmail(profile.getEmail());
+            if (emailDuplicate) {
+                returnStr = Optional.of("이미 존재하는 이메일입니다.");
+            }
+        }
+
+        return returnStr;
     }
 
 }

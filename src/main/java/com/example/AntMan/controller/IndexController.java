@@ -1,6 +1,7 @@
 package com.example.AntMan.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import com.example.AntMan.domain.dto.StockIndex;
 import com.example.AntMan.domain.dto.StockTopRank;
 import com.example.AntMan.domain.entity.User;
 import com.example.AntMan.service.StockService;
+import com.example.AntMan.service.UserService;
 import com.example.AntMan.utils.Alert;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,9 @@ public class IndexController {
 
     @Autowired
     StockService stockService;
+
+    @Autowired
+    UserService userService;
 
     // 테스트페이지
     @GetMapping("/test")
@@ -78,10 +83,13 @@ public class IndexController {
     public String profile(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         HttpSession session = request.getSession(false);
-        User user = null;
+        User sessionUser = null;
 
         if (session != null) {
-            user = (User) session.getAttribute("LOGIN_USER");
+            sessionUser = (User) session.getAttribute("LOGIN_USER");
+
+            User user = userService.getUser(sessionUser.getId()).get();
+
             model.addAttribute("user", user);
 
             return "user/profile";
