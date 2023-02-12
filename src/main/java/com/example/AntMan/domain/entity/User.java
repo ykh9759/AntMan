@@ -1,7 +1,5 @@
 package com.example.AntMan.domain.entity;
 
-import java.util.Optional;
-
 import javax.persistence.*;
 import lombok.*;
 
