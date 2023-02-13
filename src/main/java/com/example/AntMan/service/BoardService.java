@@ -2,6 +2,7 @@ package com.example.AntMan.service;
 
 import com.example.AntMan.repository.BoardDivRepository;
 import com.example.AntMan.repository.BoardRepository;
+import com.example.AntMan.repository.FileRepository;
 import com.example.AntMan.repository.ReplyRepository;
 import com.example.AntMan.repository.UserRepository;
 import com.example.AntMan.domain.dto.BoardDetail;
@@ -44,6 +45,9 @@ public class BoardService {
 	
 	@Autowired
     private ReplyRepository replyRepository;
+	
+	@Autowired
+    private FileRepository fileRepository;
 	
 	public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new LinkedHashMap<>(); /* 유효성 검사에 실패한 필드 목록을 받음 */
@@ -207,8 +211,9 @@ public class BoardService {
 	
 	// 게시글 삭제 
 	public void boarddelete(Board board) {
+		this.fileRepository.deleteByboardNo(board.getNo()); // 게시물에 해당하는 첨부파일삭제 
 		this.boardRepository.delete(board); // 게시물 삭제
-		this.replyRepository.deleteByboardNo(board.getNo()); // 게시물에 해당하는 댓글삭제
+		this.replyRepository.deleteByboardNo(board.getNo()); // 게시물에 해당하는 댓글삭제		
 	}
 	
 	// 게시글 수정

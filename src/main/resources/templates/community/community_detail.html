@@ -55,6 +55,16 @@
 		      </div>
 		    </div>
 
+			<div th:if="${fileData!= null}">	
+				<ul th:each="file: ${fileData}">
+				<li>
+					<span th:text="${file.id}"></span>
+					<a th:href="@{|/community/detail/download/${file.id}|}">[download]</a>
+				</li>
+				</ul>
+			</div>
+			
+			
 
 		    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-4 mb-3 border-bottom"
 		    	th:utext="${boardDetail.contents}">	        

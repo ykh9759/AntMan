@@ -1,5 +1,7 @@
 package com.example.AntMan.controller;
 
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,24 +20,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 import org.springframework.ui.Model;
 
 import com.example.AntMan.domain.dto.BoardDetail;
 import com.example.AntMan.domain.dto.BoardList;
 import com.example.AntMan.domain.dto.Edit;
 import com.example.AntMan.domain.dto.EditList;
+import com.example.AntMan.domain.dto.FileList;
 import com.example.AntMan.domain.dto.ReplyList;
 import com.example.AntMan.domain.dto.ReplySave;
 import com.example.AntMan.domain.entity.Board;
 import com.example.AntMan.domain.entity.BoardDivList;
+import com.example.AntMan.domain.entity.FileData;
 import com.example.AntMan.domain.entity.User;
+import com.example.AntMan.repository.FileRepository;
 import com.example.AntMan.domain.entity.Reply;
 import com.example.AntMan.service.BoardService;
 import com.example.AntMan.service.FileService;
 import com.example.AntMan.utils.Alert;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 public class CommunityController {
@@ -44,10 +52,30 @@ public class CommunityController {
 
     @Autowired
     FileService fileService;
+    
+    @Autowired
+    FileRepository fileRepositoty;
 
     Board board;
 
     Reply reply;
+    
+    // 첨부 파일 다운로드
+    @GetMapping("/community/detail/download/{id}")
+    public ResponseEntity<UrlResource> downloadAttach(@PathVariable Integer id) throws MalformedURLException {
+
+    	FileData file = fileRepositoty.findById(id).orElse(null);
+
+        UrlResource resource = new UrlResource("file:" + file.getFilePath());
+
+        String encodedFileName = UriUtils.encode(file.getOrgfileName(), StandardCharsets.UTF_8);
+
+        // 파일 다운로드 대화상자가 뜨도록 하는 헤더를 설정해주는 것
+        // Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 준다.
+        String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource);
+    }
 
     @RequestMapping(value = "/community/detail/{id}")
     public String detail(HttpServletRequest request, HttpServletResponse response, Model model,
@@ -60,6 +88,9 @@ public class CommunityController {
         model.addAttribute("replyList", replyList);
         // 게시물 아이디
         model.addAttribute("boardNo", id);
+        // 게시물 첨부파일
+        List<FileList> fileData = this.fileService.getFileList(id);
+        model.addAttribute("fileData", fileData);       
 
         HttpSession session = request.getSession(false);
         User user = null;
@@ -253,5 +284,7 @@ public class CommunityController {
 
         return;
     }
+    
+   
 
 }
