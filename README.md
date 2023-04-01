@@ -12,9 +12,13 @@
  - 커뮤니티를 통한 주식 정보 교환
  - 주가정보 확인
  
- ### 노션
+### 노션
 
  - https://scratched-game-3d3.notion.site/c6ab515f60954c269fea05dab64ce1bb
+ 
+### URL
+
+http://130.162.137.146
 
 
 ### Language
