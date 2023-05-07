@@ -19,6 +19,7 @@
 ### URL
 
  - http://130.162.137.146
+ - 테스트계정 ID: test / PW: 123
 
 
 ### Language
