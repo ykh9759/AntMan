@@ -32,7 +32,7 @@ public class StockService {
     // 주식 지수 정보 가져온다
     public List<StockIndex> getStockMarketIndex(String idxNm) {
 
-        // 한달전 날짜
+        // 3달전 날짜
         Calendar mon = Calendar.getInstance();
         mon.add(Calendar.MONTH, -3);
         String startDate = new java.text.SimpleDateFormat("yyyyMMdd").format(mon.getTime());
@@ -50,8 +50,7 @@ public class StockService {
         // url세팅
         StringBuilder url = new StringBuilder();
         url.append("http://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex");
-        url.append(
-                "?serviceKey=ZSQ5tFt%2BI3mMbrSETJGSYuuiYkCCg3Djc5AFceQcedwdmP32HOZg3%2B9LFSRkmYMhhpl1YN0eaphylK%2BakSraIg%3D%3D");
+        url.append("?serviceKey=ZSQ5tFt%2BI3mMbrSETJGSYuuiYkCCg3Djc5AFceQcedwdmP32HOZg3%2B9LFSRkmYMhhpl1YN0eaphylK%2BakSraIg%3D%3D");
         url.append("&numOfRows=100");
         url.append("&resultType=json");
         url.append("&idxNm=" + encodeIdxNm);
