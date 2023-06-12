@@ -14,7 +14,8 @@
 						<option 
 						th:each="boardList : ${boardList}"
 						th:value="${boardList.no}"
-						th:text="${boardList.name}">
+						th:text="${boardList.name}"
+						th:selected="${boardList.no} == ${id}">
 						</option>
 					</select>		 
 				</div>

@@ -96,12 +96,13 @@ public class CommunityController {
         model.addAttribute("boardName", boardName);
         model.addAttribute("editList", editList);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("id", id);
 
         return "community/board";
     }
 
     @GetMapping("/board-edit")
-    public String boardEdit(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String boardEdit(@RequestParam String id, HttpServletRequest request, HttpServletResponse response, Model model) {
 
         HttpSession session = request.getSession(false);
         User user = null;
@@ -117,6 +118,7 @@ public class CommunityController {
         
         model.addAttribute("boardList", boardList);
         model.addAttribute("user", user);
+        model.addAttribute("id", id);
 
         return "community/boardEdit";
     }
@@ -124,6 +126,7 @@ public class CommunityController {
     @PostMapping("/board-edit/save")
     public void EditCreate(@Valid Edit edit, Errors errors, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+                System.out.println(edit.getBoardDiv());
 
         if (errors.hasErrors()) {
             Map<String, String> validatorResult = boardService.validateHandling(errors);

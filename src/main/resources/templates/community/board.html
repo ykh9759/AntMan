@@ -67,7 +67,7 @@
     <!-- 페이징처리 끝 -->
     <div class="row">
     	<div class="col-sm-12 text-end">
-					<a href="board-edit" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
+					<a th:href="@{board-edit(id=${id})}" class="btn btn-default btn-sm btn-outline-secondary">글쓰기</a>
     	</div>
     </div>
     <th:block th:include="~{common/footer}"></th:block>
